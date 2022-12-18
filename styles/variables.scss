@@ -1,6 +1,6 @@
 /* By default colors are in dark mode */
 /* Colors: General */
-$color-overlay-mix: #000000;
+$color-overlay-mix: #fff;
 $color-background-body: #181a1b; //181a1b
 $color-font: #ffffff;
 $color-font-link: #2294ff;
@@ -8,3 +8,4 @@ $color-font-link: #2294ff;
 /* Colors: Markdown */
 $md-color-font: mix($color-overlay-mix, $color-font, 5%);
 $md-color-headline: mix($color-overlay-mix, $color-font, 20%);
+$md-color-hr: mix($color-overlay-mix, $color-background-body, 20%);

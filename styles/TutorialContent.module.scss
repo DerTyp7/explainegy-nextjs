@@ -7,9 +7,9 @@
 	}
 
 	.markdown {
-		padding: 0 25px 0 25px;
+		padding: 0 10px 0 10px;
 		color: $md-color-font;
-
+		list-style: inside;
 		h1,
 		h2,
 		h3,
@@ -18,7 +18,9 @@
 		h6 {
 			color: $md-color-headline;
 		}
-
+		hr {
+			border: 1px solid $md-color-hr;
+		}
 		img {
 			max-width: 100%;
 		}
