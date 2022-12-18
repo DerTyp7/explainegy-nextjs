@@ -1,9 +1,3 @@
-export default function Page({
-	params,
-	searchParams,
-}: {
-	params: { slug: string };
-	searchParams?: { [key: string]: string | string[] | undefined };
-}) {
+export default function Home() {
 	return <h1>Home</h1>;
 }

@@ -2,11 +2,11 @@ import ContentTable from "./ContentTable";
 import Sidebar from "./Sidebar";
 import styles from "../../../styles/Tutorial.module.scss";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function Layout({ children }) {
 	return (
 		<div className={styles.tutorial}>
 			<ContentTable />
-			<div className="tutorialContent">{children}</div>
+			<div>{children}</div>
 			<Sidebar />
 		</div>
 	);

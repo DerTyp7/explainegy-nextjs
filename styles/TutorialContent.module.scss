@@ -1,0 +1,26 @@
+@import "variables.scss";
+
+.tutorialContent {
+	max-width: 100%;
+
+	.head {
+	}
+
+	.markdown {
+		padding: 0 25px 0 25px;
+		color: $md-color-font;
+
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
+			color: $md-color-headline;
+		}
+
+		img {
+			max-width: 100%;
+		}
+	}
+}

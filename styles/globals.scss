@@ -14,6 +14,29 @@ body {
 		sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	background-color: $backgroundColor;
-	color: $fontColor;
+	background-color: $color-background-body;
+	color: $color-font;
+}
+
+p,
+a {
+	letter-spacing: 1px;
+	&:visited {
+		color: $color-font;
+	}
+}
+
+a {
+	font-weight: bold;
+	text-decoration: none;
+	color: $color-font-link;
+
+	&:hover {
+		text-decoration: underline;
+	}
+
+	&:visited {
+		text-decoration: none;
+		color: $color-font-link;
+	}
 }
