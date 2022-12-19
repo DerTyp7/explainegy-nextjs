@@ -1,5 +1,33 @@
+@import "variables.scss";
 .tutorial {
 	display: grid;
-	grid-template-columns: 0.5fr 1fr 0.5fr;
-	column-gap: 10px;
+	gap: 20px;
+	grid-template-columns: 200px minmax(0px, 1fr) 200px;
+	margin: 0px auto;
+	max-width: 1500px;
+	padding: 0px 24px;
+
+	.tutorialContent {
+		max-width: 100%;
+
+		.markdown {
+			padding: 0 10px 0 10px;
+			color: $md-color-font;
+			list-style: inside;
+			h1,
+			h2,
+			h3,
+			h4,
+			h5,
+			h6 {
+				color: $md-color-headline;
+			}
+			hr {
+				border: 1px solid $md-color-hr;
+			}
+			img {
+				max-width: 100%;
+			}
+		}
+	}
 }

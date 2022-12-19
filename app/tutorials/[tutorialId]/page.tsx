@@ -2,11 +2,20 @@ import { marked } from "marked";
 import { db, storage } from "../../../firebase-config";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { getDownloadURL, ref } from "firebase/storage";
-import styles from "../../../styles/TutorialContent.module.scss";
+import ContentTable from "./ContentTable";
+import Sidebar from "./Sidebar";
+import styles from "../../../styles/Tutorial.module.scss";
 import LoadPrism from "./LoadPrism";
 
-type TutorialMeta = {
+export type ContentTable = {
+	anchor: string;
 	title: string;
+};
+
+export type TutorialMeta = {
+	id: string;
+	title: string;
+	contentTable: ContentTable[];
 };
 
 async function GetTutorialMeta(tutorialId: string): Promise<TutorialMeta> {
@@ -14,9 +23,10 @@ async function GetTutorialMeta(tutorialId: string): Promise<TutorialMeta> {
 	const firebaseJsonData = firebaseData.data();
 
 	const tutorial: TutorialMeta = {
+		id: tutorialId,
 		title: firebaseJsonData?.title ?? "Tutorial not found!",
+		contentTable: firebaseJsonData?.contentTable ?? [],
 	};
-
 	return tutorial;
 }
 
@@ -36,9 +46,11 @@ async function FetchTutorialMarkdown(tutorialId: string) {
 
 function ParseMarkdown(markdown: string): string {
 	let result = marked.parse(markdown);
+
 	return result;
 }
 
+//* MAIN
 export default async function Tutorial({
 	params,
 }: {
@@ -49,17 +61,21 @@ export default async function Tutorial({
 	const markdown: string = await FetchTutorialMarkdown(tutorialId);
 
 	return (
-		<div className={styles.tutorialContent}>
-			<div className={styles.head}>
-				<h1>{tutorialMeta.title}</h1>
+		<div className={styles.tutorial}>
+			<ContentTable tutorialMeta={tutorialMeta} />
+			<div className={styles.tutorialContent}>
+				<div className={styles.head}>
+					<h1>{tutorialMeta.title}</h1>
+				</div>
+				<div
+					className={styles.markdown}
+					dangerouslySetInnerHTML={{
+						__html: ParseMarkdown(markdown),
+					}}
+				></div>
+				<LoadPrism />
 			</div>
-			<div
-				className={styles.markdown}
-				dangerouslySetInnerHTML={{
-					__html: ParseMarkdown(markdown),
-				}}
-			></div>
-			<LoadPrism />
+			<Sidebar />
 		</div>
 	);
 }
