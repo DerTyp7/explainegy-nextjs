@@ -9,3 +9,6 @@ $color-font-link: #2294ff;
 $md-color-font: mix($color-overlay-mix, $color-font, 5%);
 $md-color-headline: mix($color-overlay-mix, $color-font, 20%);
 $md-color-hr: mix($color-overlay-mix, $color-background-body, 20%);
+
+/* Grid */
+$grid-sticky-top: 60px;

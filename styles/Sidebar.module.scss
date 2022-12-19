@@ -1,0 +1,7 @@
+@import "variables.scss";
+.sidebar {
+	.stickyContainer {
+		position: sticky;
+		top: $grid-sticky-top;
+	}
+}

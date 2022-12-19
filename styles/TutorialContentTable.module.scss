@@ -3,7 +3,8 @@
 .tutorialContentTable {
 	.stickyContainer {
 		position: sticky;
-		top: 60px;
+		top: $grid-sticky-top;
+
 		.list {
 			align-items: flex-start;
 			display: flex;
