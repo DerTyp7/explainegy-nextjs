@@ -20,6 +20,11 @@ export default function ContentTable({
 						);
 					})}
 				</div>
+				{tutorialMeta?.contentTable?.length < 15 ? (
+					<div className={styles.adContainer}>Future advertisement</div>
+				) : (
+					""
+				)}
 			</div>
 		</div>
 	);

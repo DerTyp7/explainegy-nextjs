@@ -2,6 +2,29 @@
 .sidebar {
 	.stickyContainer {
 		position: sticky;
-		top: $grid-sticky-top;
+		top: $tutorial-grid-sticky-top;
+		display: flex;
+		flex-direction: column;
+		row-gap: 20px;
+		font-size: 14px;
+		@media (max-width: $tutorial-breakpoint-1) {
+			display: none;
+		}
+		.sidebarContainer {
+			display: flex;
+			flex-direction: column;
+			row-gap: 5px;
+			background-color: $color-background-card;
+			border-radius: 10px;
+			padding: 10px 10px 15px 10px;
+		}
+		.adContainer {
+			background-color: #ff00003e;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 100%;
+			height: 100%;
+		}
 	}
 }

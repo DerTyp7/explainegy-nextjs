@@ -5,7 +5,8 @@ import { getDownloadURL, ref } from "firebase/storage";
 import ContentTable from "./ContentTable";
 import Sidebar from "./Sidebar";
 import styles from "../../../styles/Tutorial.module.scss";
-import LoadPrism from "./LoadPrism";
+import LoadMarkdown from "./LoadMarkdown";
+import Head from "next/head";
 
 export type ContentTable = {
 	anchor: string;
@@ -18,7 +19,9 @@ export type TutorialMeta = {
 	contentTable: ContentTable[];
 };
 
-async function GetTutorialMeta(tutorialId: string): Promise<TutorialMeta> {
+export async function GetTutorialMeta(
+	tutorialId: string
+): Promise<TutorialMeta> {
 	const firebaseData = await getDoc(doc(db, "tutorials", tutorialId));
 	const firebaseJsonData = firebaseData.data();
 
@@ -36,7 +39,7 @@ async function FetchTutorialMarkdown(tutorialId: string) {
 			ref(storage, `markdowns/${tutorialId}.md`)
 		);
 		const data = await fetch(url, {
-			next: { revalidate: 10 },
+			next: { revalidate: 30 * 60 },
 		});
 		return await data.text();
 	} catch {
@@ -68,12 +71,12 @@ export default async function Tutorial({
 					<h1>{tutorialMeta.title}</h1>
 				</div>
 				<div
-					className={styles.markdown}
+					className="markdown"
 					dangerouslySetInnerHTML={{
 						__html: ParseMarkdown(markdown),
 					}}
 				></div>
-				<LoadPrism />
+				<LoadMarkdown />
 			</div>
 			<Sidebar />
 		</div>

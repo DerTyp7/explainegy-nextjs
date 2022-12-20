@@ -1,0 +1,112 @@
+@import "variables.scss";
+.markdown {
+	padding: 0 10px 0 10px;
+	color: $md-color-font;
+
+	hr {
+		border: 1px solid $md-color-hr;
+	}
+
+	/* Texts */
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		color: $md-color-headline;
+	}
+
+	p {
+		margin-top: 1em;
+		line-height: 1.5;
+	}
+
+	/* Images */
+	img {
+		max-width: 100%;
+	}
+
+	/* Code */
+	code {
+		background-color: #282c34;
+		padding: 5px;
+		border-radius: 5px;
+	}
+
+	pre {
+		overflow: auto;
+		word-wrap: normal;
+		white-space: pre;
+		display: block;
+
+		code {
+			display: block;
+			font-size: 1em;
+			text-indent: 0;
+			white-space: inherit;
+			background-color: transparent;
+			padding: 0px;
+			border-radius: 0px;
+		}
+	}
+
+	/* Lists */
+	ul,
+	ol {
+		list-style: inside;
+		li {
+			display: list-item;
+		}
+	}
+
+	ul {
+		list-style-type: circle;
+	}
+
+	ol {
+		list-style-type: decimal;
+	}
+
+	/* Blockquotes */
+	.blockquote {
+		border-left: 5px solid $md-color-blockquote-border;
+		padding-left: 20px;
+		background-color: $md-color-blockquote-background;
+	}
+	/* Table */
+	table {
+		border-radius: 5px;
+		border-collapse: collapse;
+		width: 100%;
+		display: table;
+		overflow: auto;
+
+		thead,
+		tbody {
+			width: 100%;
+		}
+		thead th:nth-child(odd) {
+			color: #ffffff;
+			background: $md-color-table-col-odd-background;
+		}
+		tr {
+			background: $md-color-table-row-odd-background;
+		}
+		tr:nth-child(even) {
+			background: $md-color-table-row-even-background;
+		}
+		th,
+		td {
+			text-align: center;
+			padding: 8px;
+		}
+		td {
+			border-right: 1px solid #ffffff00;
+		}
+		th {
+			color: #ffffff;
+			background: $md-color-table-col-even-background;
+		}
+	}
+}

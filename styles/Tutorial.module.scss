@@ -2,36 +2,20 @@
 .tutorial {
 	display: grid;
 	gap: 70px;
-	grid-template-columns: 200px minmax(0px, 1fr) 200px;
+	grid-template-columns: $tutorial-content-table-width minmax(0px, 1fr) $tutorial-sidebar-width;
 	margin: 0px auto;
 	max-width: 1800px;
 	padding: 0px 24px;
 
-	.tutorialContent {
-		max-width: 100%;
+	@media (max-width: $tutorial-breakpoint-1) {
+		grid-template-columns: $tutorial-content-table-width 1fr;
+	}
 
-		.markdown {
-			padding: 0 10px 0 10px;
-			color: $md-color-font;
-			list-style: inside;
-			h1,
-			h2,
-			h3,
-			h4,
-			h5,
-			h6 {
-				color: $md-color-headline;
-			}
-			hr {
-				border: 1px solid $md-color-hr;
-			}
-			img {
-				max-width: 100%;
-			}
-			p {
-				margin-top: 1em;
-				line-height: 1.5;
-			}
-		}
+	@media (max-width: $tutorial-breakpoint-2) {
+		grid-template-columns: 1fr;
+	}
+
+	.tutorialContent {
+		min-width: 0;
 	}
 }

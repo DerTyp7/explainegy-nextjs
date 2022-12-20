@@ -2,13 +2,40 @@
 /* Colors: General */
 $color-overlay-mix: #fff;
 $color-background-body: #181a1b; //181a1b
+$color-background-card: mix($color-overlay-mix, $color-background-body, 5%);
 $color-font: #ffffff;
-$color-font-link: #2294ff;
+$color-accent: #2294ff;
+$color-font-link: $color-accent;
 
 /* Colors: Markdown */
-$md-color-font: mix($color-overlay-mix, $color-font, 5%);
-$md-color-headline: mix($color-overlay-mix, $color-font, 20%);
-$md-color-hr: mix($color-overlay-mix, $color-background-body, 20%);
+$md-color-font: mix($color-background-body, $color-font, 5%);
+$md-color-headline: mix($color-background-body, $color-font, 20%);
+$md-color-hr: mix($color-background-body, $color-overlay-mix, 80%);
 
-/* Grid */
-$grid-sticky-top: 60px;
+$md-color-table-col-even-background: #3b556f;
+$md-color-table-col-odd-background: #2f4459;
+$md-color-table-row-even-background: mix(
+	$color-background-body,
+	$color-font,
+	95%
+);
+$md-color-table-row-odd-background: transparent;
+$md-color-blockquote-border: $color-accent;
+$md-color-blockquote-background: mix($color-background-body, $color-font, 95%);
+
+/* Tutorial Page */
+$tutorial-grid-sticky-top: 60px;
+$tutorial-content-table-width: 200px;
+$tutorial-sidebar-width: 200px;
+
+$tutorial-breakpoint-1: 1200px;
+$tutorial-breakpoint-2: 1000px;
+$tutorial-breakpoint-3: 700px;
+/* Footer */
+$footer-ad-container-width: 920px;
+$footer-ad-container-height: 90px;
+
+$footer-breakpoint-1: 1270px;
+$footer-breakpoint-2: 950px;
+$footer-breakpoint-3: 800px;
+$footer-breakpoint-4: 440px;
