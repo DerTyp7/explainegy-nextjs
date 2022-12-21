@@ -3,14 +3,17 @@ import React, { useRef } from "react";
 import styles from "../styles/Nav.module.scss";
 import Image from "next/image";
 import Link from "next/link";
-
+import "../styles/test.css";
 function switchTheme() {}
 
 export default function Nav() {
 	const switchThemeSvgRef = useRef();
-
 	return (
 		<nav className={styles.nav}>
+			<div className="dark">
+				<div className="test"></div>
+			</div>
+
 			<div className={styles.containerLeft}>
 				<Image
 					src={"/images/logo.svg"}
