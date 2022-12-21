@@ -10,7 +10,7 @@ export default function RootLayout({
 	return (
 		<html style={{ scrollBehavior: "smooth" }}>
 			<head></head>
-			<body>
+			<body className="theme-dark">
 				<header>
 					<Nav />
 				</header>

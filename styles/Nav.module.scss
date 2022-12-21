@@ -1,5 +1,109 @@
+@import "variables.scss";
 .nav {
-	background-color: rgb(12, 12, 14);
+	background-color: $color-background-nav;
 	height: 60px;
 	margin-bottom: 50px;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	align-items: center;
+	box-shadow: $color-shadow-nav 0px 4px 8px;
+
+	& > div {
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.containerLeft {
+		column-gap: 100px;
+
+		.links {
+			font-size: 0.8em;
+			font-weight: bold;
+		}
+	}
+
+	.containerCenter {
+		.searchBar {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			border: 2px solid rgba(95, 95, 95, 0.5);
+			border-radius: 5px;
+			padding-left: 10px;
+			transition: all 50ms linear;
+
+			&:hover {
+				border-color: rgba(91, 91, 91, 0.9);
+
+				.icon {
+					svg {
+						fill: $color-font;
+					}
+				}
+			}
+
+			&:focus-within {
+				border-color: rgba(91, 91, 91, 0.9);
+				.icon {
+					svg {
+						fill: $color-font;
+					}
+				}
+			}
+
+			input {
+				width: 300px;
+				height: 30px;
+				background-color: transparent;
+				border: 0px;
+				outline: 0;
+				padding-right: 10px;
+				color: $color-font;
+			}
+
+			.icon {
+				display: block;
+				padding-right: 10px;
+				svg {
+					height: 15px;
+				}
+			}
+		}
+	}
+
+	.containerRight {
+		justify-content: flex-end;
+		padding-right: 50px;
+
+		.themeSwitch {
+			svg {
+				transition: all 50ms linear;
+				height: 24px;
+				cursor: pointer;
+				animation-duration: 100ms;
+				animation-timing-function: linear;
+				animation-iteration-count: 1;
+				&:hover {
+					fill: $color-font;
+				}
+			}
+		}
+	}
+
+	svg {
+		aspect-ratio: 1;
+		fill: mix($color-font, $color-background-body, 70%);
+	}
+
+	@keyframes spinThemeSwitch {
+		from {
+			transform: rotate(0deg);
+		}
+		to {
+			transform: rotate(-180deg);
+			fill: #000;
+		}
+	}
 }

@@ -1,9 +1,27 @@
 /* By default colors are in dark mode */
 /* Colors: General */
-$color-overlay-mix: #fff;
-$color-background-body: #181a1b; //181a1b
+
+$color-background-body: #ffffff; //181a1b
+$color-font: #000000;
+$color-shadow-nav: #000c2b0d;
+// Light
+.theme-light {
+	$color-background-body: #ffffff; //181a1b
+	$color-font: #000000;
+	$color-shadow-nav: #000c2b0d;
+}
+
+// Dark
+.theme-dark {
+	$color-background-body: #181a1b; //181a1b
+	$color-font: #ffffff;
+	$color-shadow-nav: #00000033;
+}
+
+$color-overlay-mix: $color-font;
+
+$color-background-nav: transparent;
 $color-background-card: mix($color-overlay-mix, $color-background-body, 5%);
-$color-font: #ffffff;
 $color-accent: #2294ff;
 $color-font-link: $color-accent;
 
