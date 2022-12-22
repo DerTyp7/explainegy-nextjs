@@ -1,4 +1,3 @@
-@import "variables.scss";
 .footer {
 	padding: 200px 15px 30px 15px;
 	display: flex;
@@ -9,10 +8,10 @@
 
 	.adContainer {
 		background-color: #ff00003e;
-		width: $footer-ad-container-width;
-		height: $footer-ad-container-height;
+		width: var(--footer-ad-container-width);
+		height: var(--footer-ad-container-height);
 
-		@media (max-width: $footer-ad-container-width) {
+		@media (max-width: var(--footer-ad-container-width)) {
 			width: 100%;
 		}
 	}
@@ -22,11 +21,11 @@
 		gap: 100px 100px;
 		align-items: center;
 
-		@media (max-width: $footer-breakpoint-1) {
+		@media (max-width: var(--footer-breakpoint-1)) {
 			column-gap: 10px;
 		}
 
-		@media (max-width: $footer-breakpoint-3) {
+		@media (max-width: var(--footer-breakpoint-3)) {
 			grid-template-columns: 1fr;
 			gap: 100px 20px;
 		}
@@ -42,13 +41,13 @@
 			text-align: center;
 			column-gap: 10px;
 			font-size: 0.8em;
-			@media (max-width: $footer-breakpoint-1) {
+			@media (max-width: var(--footer-breakpoint-1)) {
 				flex-direction: column;
 				font-size: 0.7em;
 				column-gap: 0px;
 			}
 
-			@media (max-width: $footer-breakpoint-3) {
+			@media (max-width: var(--footer-breakpoint-3)) {
 				grid-row: 2;
 			}
 		}
@@ -63,7 +62,7 @@
 				grid-template-columns: 1fr 1fr 1fr;
 				gap: 20px 100px;
 
-				@media (max-width: $footer-breakpoint-4) {
+				@media (max-width: var(--footer-breakpoint-4)) {
 					column-gap: 15px;
 				}
 			}

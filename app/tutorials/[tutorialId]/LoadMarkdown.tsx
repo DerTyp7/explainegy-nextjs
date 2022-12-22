@@ -14,6 +14,12 @@ export default function LoadMarkdown() {
 			}
 		});
 
+		document.querySelectorAll("code").forEach((c) => {
+			if (c.classList.length < 1) {
+				c.classList.add("language-");
+			}
+		});
+
 		document.querySelectorAll("blockquote").forEach((bq) => {
 			bq.classList.add("blockquote");
 		});

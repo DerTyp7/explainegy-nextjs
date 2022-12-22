@@ -19,8 +19,8 @@ body {
 		sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	background-color: $color-background-body;
-	color: $color-font;
+	background-color: var(--color-background-body);
+	color: var(--color-font);
 	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
@@ -34,14 +34,14 @@ p,
 a {
 	letter-spacing: 1px;
 	&:visited {
-		color: $color-font;
+		color: var(--color-font);
 	}
 }
 
 a {
 	font-weight: bold;
 	text-decoration: none;
-	color: $color-font-link;
+	color: var(--color-font-link);
 
 	&:hover {
 		text-decoration: underline;
@@ -49,6 +49,6 @@ a {
 
 	&:visited {
 		text-decoration: none;
-		color: $color-font-link;
+		color: var(--color-font-link);
 	}
 }

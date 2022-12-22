@@ -1,6 +1,7 @@
 import "../styles/globals.scss";
 import Nav from "./Nav";
 import Footer from "./Footer";
+import "../styles/variables.scss";
 
 export default function RootLayout({
 	children,
@@ -10,7 +11,8 @@ export default function RootLayout({
 	return (
 		<html style={{ scrollBehavior: "smooth" }}>
 			<head></head>
-			<body className="theme-dark">
+
+			<body className="body">
 				<header>
 					<Nav />
 				</header>

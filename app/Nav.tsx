@@ -1,19 +1,53 @@
 "use client";
-import React, { useRef } from "react";
+import { time } from "console";
 import styles from "../styles/Nav.module.scss";
 import Image from "next/image";
 import Link from "next/link";
-import "../styles/test.css";
-function switchTheme() {}
+import { useEffect } from "react";
+
+function switchTheme(theme) {
+	const bodyElement = document.getElementsByTagName("body")[0];
+
+	if (theme == "dark") {
+		bodyElement.classList.remove("theme-light");
+	} else {
+		bodyElement.classList.add("theme-light");
+	}
+}
+
+function toggleTheme() {
+	const svgElement = document.getElementById("themeSwitchSvg");
+
+	if (localStorage.getItem("theme") == "light") {
+		svgElement.style.animationDirection = "normal";
+		svgElement.style.animationName = styles.spinThemeSwitch;
+	} else {
+		svgElement.style.animationDirection = "reverse";
+		svgElement.style.animationName = styles.spinThemeSwitch;
+	}
+
+	setTimeout(() => {
+		if (localStorage.getItem("theme") == "light") {
+			localStorage.setItem("theme", "dark");
+			switchTheme("dark");
+		} else {
+			localStorage.setItem("theme", "light");
+			switchTheme("light");
+		}
+		svgElement.style.animationName = "";
+	}, 150);
+}
 
 export default function Nav() {
-	const switchThemeSvgRef = useRef();
+	useEffect(() => {
+		if (localStorage.getItem("theme") == "dark") {
+			switchTheme("dark");
+		} else {
+			switchTheme("light");
+		}
+	}, []);
 	return (
 		<nav className={styles.nav}>
-			<div className="dark">
-				<div className="test"></div>
-			</div>
-
 			<div className={styles.containerLeft}>
 				<Image
 					src={"/images/logo.svg"}
@@ -39,11 +73,11 @@ export default function Nav() {
 				<div
 					className={styles.themeSwitch}
 					onClick={() => {
-						switchTheme();
+						toggleTheme();
 					}}
 				>
 					<svg
-						ref={switchThemeSvgRef}
+						id="themeSwitchSvg"
 						xmlns="http://www.w3.org/2000/svg"
 						viewBox="0 0 512 512"
 					>

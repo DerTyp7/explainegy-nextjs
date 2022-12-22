@@ -1,12 +1,11 @@
-@import "variables.scss";
 .nav {
-	background-color: $color-background-nav;
+	background-color: var(--color-background-nav);
 	height: 60px;
 	margin-bottom: 50px;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	align-items: center;
-	box-shadow: $color-shadow-nav 0px 4px 8px;
+	box-shadow: var(--color-shadow-nav) 0px 4px 8px;
 
 	& > div {
 		height: 100%;
@@ -39,7 +38,7 @@
 
 				.icon {
 					svg {
-						fill: $color-font;
+						fill: var(--color-font);
 					}
 				}
 			}
@@ -48,7 +47,7 @@
 				border-color: rgba(91, 91, 91, 0.9);
 				.icon {
 					svg {
-						fill: $color-font;
+						fill: var(--color-font);
 					}
 				}
 			}
@@ -60,7 +59,7 @@
 				border: 0px;
 				outline: 0;
 				padding-right: 10px;
-				color: $color-font;
+				color: var(--color-font);
 			}
 
 			.icon {
@@ -82,11 +81,13 @@
 				transition: all 50ms linear;
 				height: 24px;
 				cursor: pointer;
-				animation-duration: 100ms;
+				animation-duration: 150ms;
 				animation-timing-function: linear;
 				animation-iteration-count: 1;
+
+				animation-direction: normal;
 				&:hover {
-					fill: $color-font;
+					fill: var(--color-font);
 				}
 			}
 		}
@@ -94,7 +95,7 @@
 
 	svg {
 		aspect-ratio: 1;
-		fill: mix($color-font, $color-background-body, 70%);
+		fill: var(--color-svg-nav);
 	}
 
 	@keyframes spinThemeSwitch {
@@ -103,7 +104,6 @@
 		}
 		to {
 			transform: rotate(-180deg);
-			fill: #000;
 		}
 	}
 }

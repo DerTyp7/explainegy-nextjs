@@ -1,10 +1,9 @@
-@import "variables.scss";
 .markdown {
 	padding: 0 10px 0 10px;
-	color: $md-color-font;
+	color: var(--md-color-font);
 
 	hr {
-		border: 1px solid $md-color-hr;
+		border: 1px solid var(--md-color-hr);
 	}
 
 	/* Texts */
@@ -14,7 +13,7 @@
 	h4,
 	h5,
 	h6 {
-		color: $md-color-headline;
+		color: var(--md-color-headline);
 	}
 
 	p {
@@ -70,9 +69,9 @@
 
 	/* Blockquotes */
 	.blockquote {
-		border-left: 5px solid $md-color-blockquote-border;
+		border-left: 5px solid var(--md-color-blockquote-border);
 		padding-left: 20px;
-		background-color: $md-color-blockquote-background;
+		background-color: var(--md-color-blockquote-background);
 	}
 	/* Table */
 	table {
@@ -88,13 +87,13 @@
 		}
 		thead th:nth-child(odd) {
 			color: #ffffff;
-			background: $md-color-table-col-odd-background;
+			background: var(--md-color-table-col-odd-background);
 		}
 		tr {
-			background: $md-color-table-row-odd-background;
+			background: var(--md-color-table-row-odd-background);
 		}
 		tr:nth-child(even) {
-			background: $md-color-table-row-even-background;
+			background: var(--md-color-table-row-even-background);
 		}
 		th,
 		td {
@@ -106,7 +105,7 @@
 		}
 		th {
 			color: #ffffff;
-			background: $md-color-table-col-even-background;
+			background: var(--md-color-table-col-even-background);
 		}
 	}
 }
