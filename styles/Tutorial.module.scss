@@ -1,18 +1,17 @@
+@import "variables.scss";
 .tutorial {
 	display: grid;
 	gap: 70px;
-	grid-template-columns: var(--tutorial-content-table-width) minmax(0px, 1fr) var(
-			--tutorial-sidebar-width
-		);
+	grid-template-columns: $tutorial-content-table-width minmax(0px, 1fr) $tutorial-sidebar-width;
 	margin: 0px auto;
 	max-width: 1800px;
 	padding: 0px 24px;
 
-	@media (max-width: var(--tutorial-breakpoint-1)) {
-		grid-template-columns: var(--tutorial-content-table-width) 1fr;
+	@media (max-width: $tutorial-breakpoint-1) {
+		grid-template-columns: $tutorial-content-table-width 1fr;
 	}
 
-	@media (max-width: var(--tutorial-breakpoint-2)) {
+	@media (max-width: $tutorial-breakpoint-2) {
 		grid-template-columns: 1fr;
 	}
 

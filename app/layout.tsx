@@ -1,7 +1,8 @@
 import "../styles/globals.scss";
+import "../styles/colorVariables.scss";
+import "../styles/variables.scss";
 import Nav from "./Nav";
 import Footer from "./Footer";
-import "../styles/variables.scss";
 
 export default function RootLayout({
 	children,

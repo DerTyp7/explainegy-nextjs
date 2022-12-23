@@ -1,10 +1,11 @@
+@import "variables.scss";
 .tutorialContentTable {
-	@media (max-width: var(--tutorial-breakpoint-2)) {
+	@media (max-width: $tutorial-breakpoint-2) {
 		display: none;
 	}
 	.stickyContainer {
 		position: sticky;
-		top: var(--tutorial-grid-sticky-top);
+		top: $tutorial-grid-sticky-top;
 
 		.list {
 			align-items: flex-start;

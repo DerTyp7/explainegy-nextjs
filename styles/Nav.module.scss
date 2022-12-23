@@ -1,3 +1,4 @@
+@import "variables.scss";
 .nav {
 	background-color: var(--color-background-nav);
 	height: 60px;
@@ -7,6 +8,15 @@
 	align-items: center;
 	box-shadow: var(--color-shadow-nav) 0px 4px 8px;
 
+	@media (max-width: $nav-breakpoint-1) {
+		grid-template-columns: 1fr 1fr 0.25fr;
+	}
+
+	@media (max-width: $nav-breakpoint-2) {
+		grid-template-columns: 1fr 1fr;
+		height: 100px;
+	}
+
 	& > div {
 		height: 100%;
 		display: flex;
@@ -15,7 +25,14 @@
 	}
 
 	.containerLeft {
-		column-gap: 100px;
+		@media (max-width: $nav-breakpoint-2) {
+			grid-column: 1;
+			grid-row: 1;
+		}
+
+		@media (max-width: $nav-breakpoint-3) {
+			column-gap: 20px;
+		}
 
 		.links {
 			font-size: 0.8em;
@@ -24,6 +41,12 @@
 	}
 
 	.containerCenter {
+		width: 100%;
+
+		@media (max-width: $nav-breakpoint-2) {
+			grid-row: 2;
+			grid-column: span 2;
+		}
 		.searchBar {
 			display: flex;
 			justify-content: center;
@@ -60,6 +83,10 @@
 				outline: 0;
 				padding-right: 10px;
 				color: var(--color-font);
+
+				@media (max-width: $nav-breakpoint-4) {
+					width: 200px;
+				}
 			}
 
 			.icon {
@@ -75,6 +102,14 @@
 	.containerRight {
 		justify-content: flex-end;
 		padding-right: 50px;
+
+		@media (max-width: $nav-breakpoint-2) {
+			grid-row: 1;
+		}
+
+		@media (max-width: $nav-breakpoint-4) {
+			padding-right: 20px;
+		}
 
 		.themeSwitch {
 			svg {
