@@ -39,7 +39,7 @@ function toggleTheme() {
 	}, 150);
 }
 
-export default function Nav() {
+export default function Nav({ categories }) {
 	useEffect(() => {
 		if (localStorage.getItem("theme") == "dark") {
 			switchTheme("dark");
@@ -57,16 +57,23 @@ export default function Nav() {
 					alt="Nav bar logo"
 				/>
 				<div className={styles.links}>
-					<Link href={"/articles"} className={styles.dropDown}>
+					<div className={styles.dropDown}>
 						Categories
 						<div className={styles.dropDownContainer}>
 							<div className={styles.content}>
-								{" "}
 								<Link href={"/articles"}>All</Link>
-								<Link href={"/articles/tutorials"}>Tutorials</Link>
+								{categories?.map((cat, i) => {
+									{
+										return (
+											<Link href={`/articles/${cat.name.toLowerCase()}`}>
+												{cat?.name}
+											</Link>
+										);
+									}
+								})}
 							</div>
 						</div>
-					</Link>
+					</div>
 				</div>
 			</div>
 			<div className={styles.containerCenter}>

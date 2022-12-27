@@ -10,7 +10,7 @@ export default async function Head({
 	const article: Article = await GetArticle(articleName);
 	return (
 		<>
-			<title>{article.title}</title>
+			<title>{article?.title}</title>
 			<meta name="viewport" content="width=device-width, initial-scale=1" />
 		</>
 	);

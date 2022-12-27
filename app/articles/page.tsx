@@ -9,10 +9,6 @@ export async function GetCategories(): Promise<Category[]> {
 	return await prisma.category.findMany();
 }
 
-const DynamicCategoryGrid = dynamic(() => import("./DynamicCategoryGrid"), {
-	loading: () => <p>Loading...</p>,
-});
-
 export default async function CategoryList() {
 	const categories = await GetCategories();
 
@@ -20,7 +16,28 @@ export default async function CategoryList() {
 		<div className={styles.categoryList}>
 			<h1>Overview</h1>
 			<div className={styles.content}>
-				<DynamicCategoryGrid categories={categories} />
+				<div className={styles.grid}>
+					{categories.map((cat, i) => {
+						return (
+							<div key={i} className={styles.linkContainer}>
+								<Link
+									href={`/articles/${cat.name.toLowerCase()}`}
+									style={{ backgroundColor: cat.color }}
+								>
+									<div className={styles.svgContainer}>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 640 512"
+										>
+											<path d={cat.svg} />
+										</svg>
+									</div>
+									{cat.name}
+								</Link>
+							</div>
+						);
+					})}
+				</div>
 			</div>
 		</div>
 	);

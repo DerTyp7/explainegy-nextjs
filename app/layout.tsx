@@ -3,8 +3,14 @@ import "../styles/colorVariables.scss";
 import "../styles/variables.scss";
 import Nav from "./Nav";
 import Footer from "./Footer";
+import { Category } from "@prisma/client";
+import prisma from "../lib/prisma";
 
-export default function RootLayout({
+export async function GetCategories(): Promise<Category[]> {
+	return await prisma.category.findMany();
+}
+
+export default async function RootLayout({
 	children,
 }: {
 	children: React.ReactNode;
@@ -15,7 +21,7 @@ export default function RootLayout({
 
 			<body className="body">
 				<header>
-					<Nav />
+					<Nav categories={await GetCategories()} />
 				</header>
 				<main>{children}</main>
 				<Footer />

@@ -10,7 +10,7 @@ export async function GetContentTableEntries(
 	article: Article
 ): Promise<ContentTableEntry[]> {
 	const entries = await prisma.contentTableEntry.findMany({
-		where: { article: article },
+		where: { articleId: article?.id ?? 1 },
 		orderBy: { orderIndex: "asc" },
 	});
 
@@ -19,7 +19,7 @@ export async function GetContentTableEntries(
 
 export async function GetArticle(articleName: string) {
 	const article = await prisma.article.findUnique({
-		where: { name: articleName.toLowerCase() },
+		where: { name: articleName.toLowerCase() ?? "" },
 	});
 
 	return article;
@@ -39,7 +39,7 @@ export default async function Tutorial({
 }) {
 	const articleName: string = params.articleName;
 	const article: Article = await GetArticle(articleName);
-	const markdown: string = article.markdown;
+	const markdown: string = article?.markdown ?? "";
 	const contentTableEntries: ContentTableEntry[] = await GetContentTableEntries(
 		article
 	);
@@ -49,7 +49,7 @@ export default async function Tutorial({
 			<ContentTable contentTableEntries={contentTableEntries} />
 			<div className={styles.tutorialContent}>
 				<div className={styles.head}>
-					<h1>{article.title}</h1>
+					<h1>{article?.title}</h1>
 				</div>
 				<div
 					className="markdown"
