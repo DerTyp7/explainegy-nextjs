@@ -56,7 +56,7 @@ export default function Nav() {
 					alt="Nav bar logo"
 				/>
 				<div className={styles.links}>
-					<Link href={"/tutorials"}>Tutorials</Link>
+					<Link href={"/articles/tutorials"}>Tutorials</Link>
 				</div>
 			</div>
 			<div className={styles.containerCenter}>
