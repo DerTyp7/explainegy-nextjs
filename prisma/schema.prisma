@@ -35,6 +35,8 @@ model ContentTableEntry {
 model Category {
   id          Int       @id @default(autoincrement())
   name        String    @unique
+  color       String    @unique
+  svg         String    @default("")
   Article     Article[]
   dateCreated DateTime  @default(now())
   dateUpdated DateTime  @default(now())

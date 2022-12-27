@@ -4,6 +4,7 @@ import styles from "../styles/Nav.module.scss";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect } from "react";
+import Category from "./articles/[categoryName]/page";
 
 function switchTheme(theme) {
 	const bodyElement = document.getElementsByTagName("body")[0];
@@ -56,7 +57,16 @@ export default function Nav() {
 					alt="Nav bar logo"
 				/>
 				<div className={styles.links}>
-					<Link href={"/articles/tutorials"}>Tutorials</Link>
+					<Link href={"/articles"} className={styles.dropDown}>
+						Categories
+						<div className={styles.dropDownContainer}>
+							<div className={styles.content}>
+								{" "}
+								<Link href={"/articles"}>All</Link>
+								<Link href={"/articles/tutorials"}>Tutorials</Link>
+							</div>
+						</div>
+					</Link>
 				</div>
 			</div>
 			<div className={styles.containerCenter}>

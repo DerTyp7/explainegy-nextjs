@@ -10,8 +10,11 @@
 	--color-svg-nav: rgb(191, 191, 191);
 
 	--color-background-card: rgba(123, 123, 123, 0.13);
+	--color-background-dropdown: var(--color-background-body);
 	--color-accent: #2294ff;
 	--color-font-link: var(--color-accent);
+
+	--color-font-link-hover: #5caffc;
 
 	/* Colors: Markdown */
 	--md-color-font: rgb(220, 217, 217);
@@ -35,8 +38,10 @@
 		--color-svg-nav: rgb(54, 54, 54);
 
 		--color-background-card: rgba(171, 170, 170, 0.13);
+		--color-background-dropdown: var(--color-background-body);
 		--color-accent: #2294ff;
 		--color-font-link: var(--color-accent);
+		--color-font-link-hover: #0966be;
 
 		/* Colors: Markdown */
 		--md-color-font: rgb(33, 33, 33);

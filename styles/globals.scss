@@ -43,9 +43,11 @@ a {
 	font-weight: bold;
 	text-decoration: none;
 	color: var(--color-font-link);
+	transition: color 50ms linear;
 
 	&:hover {
 		text-decoration: underline;
+		color: var(--color-font-link-hover) !important;
 	}
 
 	&:visited {
