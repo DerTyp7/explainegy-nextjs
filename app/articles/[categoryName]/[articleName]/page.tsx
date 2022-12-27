@@ -32,12 +32,14 @@ function ParseMarkdown(markdown: string): string {
 }
 
 //* MAIN
-export default async function Tutorial({
+export default async function ArticlePage({
 	params,
 }: {
 	params: { articleName: string; categoryName: string };
 }) {
-	const articleName: string = params.articleName;
+	const articleName: string = params.articleName
+		.toLowerCase()
+		.replaceAll("%20", " ");
 	const article: Article = await GetArticle(articleName);
 	const markdown: string = article?.markdown ?? "";
 	const contentTableEntries: ContentTableEntry[] = await GetContentTableEntries(

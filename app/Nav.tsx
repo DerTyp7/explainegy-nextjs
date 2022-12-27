@@ -1,10 +1,13 @@
 "use client";
-import { time } from "console";
 import styles from "../styles/Nav.module.scss";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect } from "react";
-import Category from "./articles/[categoryName]/page";
+
+export type NavCategory = {
+	name: string;
+	title: string;
+};
 
 function switchTheme(theme) {
 	const bodyElement = document.getElementsByTagName("body")[0];
@@ -39,7 +42,7 @@ function toggleTheme() {
 	}, 150);
 }
 
-export default function Nav({ categories }) {
+export default function Nav({ categories }: { categories: NavCategory[] }) {
 	useEffect(() => {
 		if (localStorage.getItem("theme") == "dark") {
 			switchTheme("dark");
@@ -58,15 +61,18 @@ export default function Nav({ categories }) {
 				/>
 				<div className={styles.links}>
 					<div className={styles.dropDown}>
-						Categories
+						<Link href="/articles">Categories</Link>
 						<div className={styles.dropDownContainer}>
 							<div className={styles.content}>
 								<Link href={"/articles"}>All</Link>
 								{categories?.map((cat, i) => {
 									{
 										return (
-											<Link href={`/articles/${cat.name.toLowerCase()}`}>
-												{cat?.name}
+											<Link
+												key={i}
+												href={`/articles/${cat.name.toLowerCase()}`}
+											>
+												{cat.title}
 											</Link>
 										);
 									}

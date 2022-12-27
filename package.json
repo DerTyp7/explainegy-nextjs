@@ -3,8 +3,9 @@
 	"version": "0.2.0",
 	"private": true,
 	"scripts": {
+		"prisma": "prisma generate && prisma db push && prisma studio",
 		"dev": "next dev",
-		"build": "prisma generate && prisma migrate deploy && next build",
+		"build": "prisma generate && prisma migrate deploy && prisma db push && next build",
 		"start": "next start",
 		"lint": "next lint"
 	},

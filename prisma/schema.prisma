@@ -35,8 +35,10 @@ model ContentTableEntry {
 model Category {
   id          Int       @id @default(autoincrement())
   name        String    @unique
+  title       String    @unique
   color       String    @unique
-  svg         String    @default("")
+  svgId       Int
+  svg         Svg       @relation(fields: [svgId], references: [id])
   Article     Article[]
   dateCreated DateTime  @default(now())
   dateUpdated DateTime  @default(now())
@@ -45,7 +47,16 @@ model Category {
 model ArticleType {
   id          Int       @id @default(autoincrement())
   name        String    @unique
+  title       String    @unique
   Article     Article[]
   dateCreated DateTime  @default(now())
   dateUpdated DateTime  @default(now())
+}
+
+model Svg {
+  id       Int        @id @default(autoincrement())
+  name     String     @unique
+  path     String     @default("")
+  viewbox  String     @default("0 0 512 512")
+  Category Category[]
 }
