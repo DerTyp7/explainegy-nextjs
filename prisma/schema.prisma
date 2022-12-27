@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Article {
+  id                  Int                 @id @default(autoincrement())
+  name                String              @unique
+  title               String              @unique
+  markdown            String
+  contentTableEntries ContentTableEntry[]
+  dateCreated         DateTime            @default(now())
+  dateUpdated         DateTime            @default(now())
+}
+
+model ContentTableEntry {
+  id          Int      @id @default(autoincrement())
+  title       String
+  anchor      String
+  orderIndex  Int
+  articleId   Int
+  article     Article  @relation(fields: [articleId], references: [id])
+  dateCreated DateTime @default(now())
+  dateUpdated DateTime @default(now())
+}

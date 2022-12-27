@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   postgres:
-    image: postgres
+    image: postgres:latest
     container_name: explainegy_postgres
     volumes:
       - ./docker_data/postgres:/var/lib/postgresql/data
@@ -17,7 +17,7 @@ services:
       test: "exit 0"
 
   pgadmin:
-    image: dpage/pgadmin4
+    image: dpage/pgadmin4:latest
     container_name: explainegy_pgadmin
     restart: always
     environment:
@@ -26,7 +26,7 @@ services:
     ports:
       - "5050:80"
     volumes:
-      - ./docker/servers.json:/pgadmin4/servers.json # preconfigured servers/connections
-      - ./docker/pgpass:/pgpass # passwords for the connections in this file
+      - ./docker_data/servers.json:/pgadmin4/servers.json # preconfigured servers/connections
+      - ./docker_data/pgpass:/pgpass # passwords for the connections in this file
     depends_on:
       - "postgres"

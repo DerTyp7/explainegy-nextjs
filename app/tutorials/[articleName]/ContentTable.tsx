@@ -1,18 +1,19 @@
 import React from "react";
-import { TutorialMeta } from "./page";
+import prisma from "../../../lib/prisma";
 import styles from "../../../styles/TutorialContentTable.module.scss";
+import { Article, ContentTableEntry } from "@prisma/client";
 
 export default function ContentTable({
-	tutorialMeta,
+	contentTableEntries,
 }: {
-	tutorialMeta: TutorialMeta;
+	contentTableEntries: ContentTableEntry[];
 }) {
 	return (
 		<div className={styles.tutorialContentTable}>
 			<div className={styles.stickyContainer}>
 				<div className={styles.list}>
 					<h2>Contents</h2>
-					{tutorialMeta?.contentTable?.map((e, i) => {
+					{contentTableEntries?.map((e, i) => {
 						return (
 							<a key={i} href={"#" + e.anchor}>
 								{e.title}
@@ -20,7 +21,7 @@ export default function ContentTable({
 						);
 					})}
 				</div>
-				{tutorialMeta?.contentTable?.length < 15 ? (
+				{contentTableEntries?.length < 15 ? (
 					<div className={styles.adContainer}>Future advertisement</div>
 				) : (
 					""
