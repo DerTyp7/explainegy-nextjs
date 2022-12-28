@@ -1,3 +1,13 @@
+// This file stores all SCSS variables in one place to simplify the use of variables throughout the project.
+
+/* Typography */
+$font-size-default: 1em;
+$font-size-headline-step: 0.12em;
+$font-letter-spacing-default: 1px;
+$font-letter-spacing-headline-large: 2px;
+$font-letter-spacing-headline-medium: 1.5px;
+$font-letter-spacing-headline-small: 1.25px;
+
 /* Tutorial Page */
 $tutorial-grid-sticky-top: 60px;
 $tutorial-content-table-width: 200px;
@@ -28,6 +38,5 @@ $categoryList-breakpoint-1: 850px;
 $categoryList-breakpoint-2: 600px;
 
 /* Category */
-
 $category-breakpoint-1: 800px;
 $category-breakpoint-2: 550px;

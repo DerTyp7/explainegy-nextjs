@@ -1,0 +1,72 @@
+// This file includes styles for text and font styles in the project.
+// It does not include color styles, which are defined in the 'variables_colors.scss' and 'global.scss' files.
+
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@import "variables_colors.scss";
+@import "variables.scss";
+
+html,
+body {
+	font-family: "Roboto", sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	color: var(--color-font);
+	font-size: $font-size-default;
+	letter-spacing: $font-letter-spacing-default;
+}
+
+/* Headings */
+h1 {
+	font-size: calc($font-size-default + $font-size-headline-step * 6);
+	font-weight: bold;
+	letter-spacing: $font-letter-spacing-headline-large;
+}
+
+h2 {
+	// 5 skipped on purpose
+	font-size: calc($font-size-default + $font-size-headline-step * 4);
+	font-weight: bold;
+	letter-spacing: $font-letter-spacing-headline-medium;
+}
+
+h3 {
+	font-size: calc($font-size-default + $font-size-headline-step * 3);
+	font-weight: bold;
+	letter-spacing: $font-letter-spacing-headline-small;
+}
+
+h4 {
+	font-size: calc($font-size-default + $font-size-headline-step * 2);
+	font-weight: bold;
+	letter-spacing: $font-letter-spacing-headline-small;
+}
+
+h5 {
+	font-size: calc($font-size-default + $font-size-headline-step * 1);
+	font-weight: bold;
+	letter-spacing: $font-letter-spacing-headline-small;
+}
+
+h6 {
+	font-size: $font-size-default;
+	font-weight: bold;
+	letter-spacing: 1.25px;
+}
+
+/* General Texts */
+a {
+	font-weight: bold;
+	text-decoration: none;
+	color: var(--color-font-link);
+	transition: color 50ms linear;
+
+	&:hover {
+		text-decoration: underline;
+		color: var(--color-font-link-hover) !important;
+	}
+
+	&:visited {
+		text-decoration: none;
+		color: var(--color-font-link);
+	}
+}

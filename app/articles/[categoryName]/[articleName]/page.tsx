@@ -1,7 +1,7 @@
 import { marked } from "marked";
 import ContentTable from "./ContentTable";
 import Sidebar from "./Sidebar";
-import styles from "../../../../styles/Tutorial.module.scss";
+import styles from "../../../../styles/modules/Tutorial.module.scss";
 import LoadMarkdown from "./LoadMarkdown";
 import prisma from "../../../../lib/prisma";
 import { Article, Category, ContentTableEntry } from "@prisma/client";

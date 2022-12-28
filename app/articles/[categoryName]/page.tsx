@@ -1,4 +1,4 @@
-import styles from "../../../styles/Category.module.scss";
+import styles from "../../../styles/modules/Category.module.scss";
 import Link from "next/link";
 import prisma from "../../../lib/prisma";
 import { Article, Category } from "@prisma/client";

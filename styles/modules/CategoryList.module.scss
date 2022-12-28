@@ -1,9 +1,6 @@
-@import "variables.scss";
+@import "../variables.scss";
 .categoryList {
-	h1 {
-		text-align: center;
-		font-size: 1.5em;
-	}
+	text-align: center;
 
 	.content {
 		margin-top: 30px;

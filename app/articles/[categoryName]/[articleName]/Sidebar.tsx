@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../../../../styles/Sidebar.module.scss";
+import styles from "../../../../styles/modules/Sidebar.module.scss";
 export default function Sidebar() {
 	return (
 		<div className={styles.sidebar}>

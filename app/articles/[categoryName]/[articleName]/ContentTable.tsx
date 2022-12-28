@@ -1,6 +1,6 @@
 import React from "react";
 import prisma from "../../../../lib/prisma";
-import styles from "../../../../styles/TutorialContentTable.module.scss";
+import styles from "../../../../styles/modules/TutorialContentTable.module.scss";
 import { Article, ContentTableEntry } from "@prisma/client";
 
 export default function ContentTable({

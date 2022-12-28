@@ -1,4 +1,5 @@
-@import "variables.scss";
+@import "../variables.scss";
+
 .tutorialContentTable {
 	@media (max-width: $tutorial-breakpoint-2) {
 		display: none;

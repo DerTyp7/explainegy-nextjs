@@ -1,5 +1,5 @@
 "use client";
-import styles from "../styles/Nav.module.scss";
+import styles from "../styles/modules/Nav.module.scss";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect } from "react";

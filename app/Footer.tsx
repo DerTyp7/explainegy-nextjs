@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../styles/Footer.module.scss";
+import styles from "../styles/modules/Footer.module.scss";
 import Image from "next/image";
 export default function Footer() {
 	return (

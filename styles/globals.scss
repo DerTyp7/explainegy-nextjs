@@ -1,5 +1,7 @@
-@import "colorVariables.scss";
+@import "variables_colors.scss";
 @import "variables.scss";
+@import "typography.scss";
+
 * {
 	box-sizing: border-box;
 	padding: 0;
@@ -15,43 +17,12 @@
 html,
 body {
 	max-width: 100vw;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-		"Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-		sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
 	background-color: var(--color-background-body);
-	color: var(--color-font);
 	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
 	main {
 		width: 100%;
 		flex: 1;
-	}
-}
-
-p,
-a {
-	letter-spacing: 1px;
-	&:visited {
-		color: var(--color-font);
-	}
-}
-
-a {
-	font-weight: bold;
-	text-decoration: none;
-	color: var(--color-font-link);
-	transition: color 50ms linear;
-
-	&:hover {
-		text-decoration: underline;
-		color: var(--color-font-link-hover) !important;
-	}
-
-	&:visited {
-		text-decoration: none;
-		color: var(--color-font-link);
 	}
 }

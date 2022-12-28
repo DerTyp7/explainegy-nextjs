@@ -1,3 +1,7 @@
+// We use pure CSS variables in this file because SCSS variables get hardcoded after compiling,
+// which means the dynamic changing effect is lost.
+// Using CSS variables allows us to change the values at runtime
+
 :root {
 	/*! By default colors are in DARK mode */
 	/* Colors: General */
