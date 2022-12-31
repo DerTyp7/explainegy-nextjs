@@ -13,10 +13,10 @@ model Article {
   title               String              @unique
   markdown            String
   contentTableEntries ContentTableEntry[]
-  categoryId          Int
-  category            Category            @relation(fields: [categoryId], references: [id])
-  typeId              Int
-  type                ArticleType         @relation(fields: [typeId], references: [id])
+  categoryId          Int?
+  category            Category?           @relation(fields: [categoryId], references: [id])
+  typeId              Int?
+  type                ArticleType?        @relation(fields: [typeId], references: [id])
   dateCreated         DateTime            @default(now())
   dateUpdated         DateTime            @default(now())
 }
