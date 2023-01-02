@@ -2,7 +2,9 @@
 import styles from "../styles/modules/Nav.module.scss";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
+import { MutableRefObject, useEffect, useRef, useState } from "react";
+import async from "./articles/[categoryName]/[articleName]/head";
+import ContentTable from "./articles/[categoryName]/[articleName]/ContentTable";
 
 export type NavCategory = {
 	name: string;
@@ -43,6 +45,20 @@ function toggleTheme() {
 }
 
 export default function Nav({ categories }: { categories: NavCategory[] }) {
+	const [searchResults, setSearchResults] = useState([]);
+
+	async function handleSearchInput(event) {
+		const query = event.target.value;
+		let result = await fetch(`/api/search?q=${query}`);
+		let json = await result.json();
+
+		if (json.length == 0 && query.length > 0) {
+			setSearchResults([{ name: "", title: "No article found..." }]);
+		} else {
+			setSearchResults(json);
+		}
+	}
+
 	useEffect(() => {
 		if (localStorage.getItem("theme") == "dark") {
 			switchTheme("dark");
@@ -50,6 +66,11 @@ export default function Nav({ categories }: { categories: NavCategory[] }) {
 			switchTheme("light");
 		}
 	}, []);
+
+	useEffect(() => {
+		console.log(searchResults);
+	}, [searchResults]);
+
 	return (
 		<nav className={styles.nav}>
 			<div className={styles.containerLeft}>
@@ -89,7 +110,20 @@ export default function Nav({ categories }: { categories: NavCategory[] }) {
 							<path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z" />
 						</svg>
 					</div>
-					<input type="text" name="" id="" />
+					<input onInput={handleSearchInput} type="text" name="" id="" />
+				</div>
+				<div className={styles.searchResults}>
+					<div className={styles.content}>
+						{searchResults.map((s) => {
+							{
+								return (
+									<Link href={`/articles/${s.name.toLowerCase()}`}>
+										{s.title}
+									</Link>
+								);
+							}
+						})}
+					</div>
 				</div>
 			</div>
 			<div className={styles.containerRight}>

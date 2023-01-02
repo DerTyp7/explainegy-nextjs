@@ -7,9 +7,10 @@ export default async function search(req, res) {
 	query = query.toLowerCase().replaceAll("%20", "");
 	query = query.toLowerCase().replaceAll(" ", "");
 
-	if (query.length > 2) {
+	if (query.length > 1) {
 		const articles = await prisma.article.findMany({
 			select: { title: true, name: true },
+			take: 5,
 		}); //TODO order by most viewed
 
 		let result = [];
