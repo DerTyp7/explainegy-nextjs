@@ -53,6 +53,13 @@ model ArticleType {
   dateUpdated DateTime  @default(now())
 }
 
+model Image {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  url         String   @default("")
+  dateCreated DateTime @default(now())
+}
+
 model Svg {
   id       Int        @id @default(autoincrement())
   name     String     @unique

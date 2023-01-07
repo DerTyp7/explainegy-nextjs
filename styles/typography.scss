@@ -7,66 +7,72 @@
 
 html,
 body {
-	font-family: "Roboto", sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	color: var(--color-font);
-	font-size: $font-size-default;
-	letter-spacing: $font-letter-spacing-default;
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--color-font);
+  font-size: $font-size-default;
+  letter-spacing: $font-letter-spacing-default;
 }
 
 /* Headings */
 h1 {
-	font-size: calc($font-size-default + $font-size-headline-step * 6);
-	font-weight: bold;
-	letter-spacing: $font-letter-spacing-headline-large;
+  font-size: calc($font-size-default + $font-size-headline-step * 6);
+  font-weight: bold;
+  letter-spacing: $font-letter-spacing-headline-large;
 }
 
 h2 {
-	// 5 skipped on purpose
-	font-size: calc($font-size-default + $font-size-headline-step * 4);
-	font-weight: bold;
-	letter-spacing: $font-letter-spacing-headline-medium;
+  // 5 skipped on purpose
+  font-size: calc($font-size-default + $font-size-headline-step * 4);
+  font-weight: bold;
+  letter-spacing: $font-letter-spacing-headline-medium;
 }
 
 h3 {
-	font-size: calc($font-size-default + $font-size-headline-step * 3);
-	font-weight: bold;
-	letter-spacing: $font-letter-spacing-headline-small;
+  font-size: calc($font-size-default + $font-size-headline-step * 3);
+  font-weight: bold;
+  letter-spacing: $font-letter-spacing-headline-small;
 }
 
 h4 {
-	font-size: calc($font-size-default + $font-size-headline-step * 2);
-	font-weight: bold;
-	letter-spacing: $font-letter-spacing-headline-small;
+  font-size: calc($font-size-default + $font-size-headline-step * 2);
+  font-weight: bold;
+  letter-spacing: $font-letter-spacing-headline-small;
 }
 
 h5 {
-	font-size: calc($font-size-default + $font-size-headline-step * 1);
-	font-weight: bold;
-	letter-spacing: $font-letter-spacing-headline-small;
+  font-size: calc($font-size-default + $font-size-headline-step * 1);
+  font-weight: bold;
+  letter-spacing: $font-letter-spacing-headline-small;
 }
 
 h6 {
-	font-size: $font-size-default;
-	font-weight: bold;
-	letter-spacing: 1.25px;
+  font-size: $font-size-default;
+  font-weight: bold;
+  letter-spacing: 1.25px;
 }
 
 /* General Texts */
 a {
-	font-weight: bold;
-	text-decoration: none;
-	color: var(--color-font-link);
-	transition: color 50ms linear;
+  font-weight: bold;
+  text-decoration: none;
+  color: var(--color-font-link);
+  transition: color 50ms linear;
 
-	&:hover {
-		text-decoration: underline;
-		color: var(--color-font-link-hover) !important;
-	}
+  &:hover {
+    text-decoration: underline;
+    color: var(--color-font-link-hover) !important;
+  }
 
-	&:visited {
-		text-decoration: none;
-		color: var(--color-font-link);
-	}
+  &:visited {
+    text-decoration: none;
+    color: var(--color-font-link);
+  }
+}
+
+.text-muted {
+  color: var(--color-font-muted);
+  font-weight: bold;
+  font-size: 0.8em;
 }

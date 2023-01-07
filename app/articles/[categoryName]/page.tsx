@@ -1,63 +1,72 @@
 import styles from "../../../styles/modules/Category.module.scss";
 import Link from "next/link";
-import prisma from "../../../lib/prisma";
+import { apiUrl } from "../../global";
 import { Article, Category } from "@prisma/client";
+import urlJoin from "url-join";
 
-export async function GetAllArticles(category: Category): Promise<Article[]> {
-	return await prisma.article.findMany({ where: { category: category } });
+async function GetAllArticles(categoryName: string): Promise<any> {
+  const result: Response = await fetch(urlJoin(apiUrl, `articles?categoryName=${categoryName}`), {
+    cache: "force-cache",
+    next: { revalidate: 3600 },
+  });
+  return result.json();
 }
 
-export async function GetPopularArticles(
-	category: Category
-): Promise<Article[]> {
-	return await prisma.article.findMany({
-		where: { category: category },
-		take: 6,
-	});
+async function GetPopularArticles(categoryName: string): Promise<any> {
+  const result: Response = await fetch(
+    urlJoin(apiUrl, `articles?categoryName=${categoryName}&limit=6&orderBy=popularity`),
+    {
+      cache: "force-cache",
+      next: { revalidate: 3600 },
+    }
+  );
+  return result.json();
 }
 
-export async function GetRecentArticles(
-	category: Category
-): Promise<Article[]> {
-	return await prisma.article.findMany({
-		where: { category: category },
-		take: 6,
-		orderBy: { dateCreated: "desc" },
-	});
+async function GetRecentArticles(categoryName: string): Promise<any> {
+  const result: Response = await fetch(
+    urlJoin(apiUrl, `articles?categoryName=${categoryName}&limit=6&orderBy=recent`),
+    {
+      cache: "force-cache",
+      next: { revalidate: 3600 },
+    }
+  );
+  return result.json();
 }
 
-export async function GetCategory(categoryName: string): Promise<Category> {
-	return await prisma.category.findUnique({ where: { name: categoryName } });
+async function GetCategory(categoryName: string): Promise<any> {
+  const result: Response = await fetch(urlJoin(apiUrl, `categories/${categoryName}`), {
+    cache: "force-cache",
+    next: { revalidate: 3600 },
+  });
+  return result.json();
 }
-export default async function CategoryPage({
-	params,
-}: {
-	params: { categoryName: string };
-}) {
-	const categoryName = params.categoryName.toLowerCase().replaceAll("%20", " ");
-	const category: Category = await GetCategory(categoryName);
-	const allArticles: Article[] = await GetAllArticles(category);
-	const popularArticles: Article[] = await GetPopularArticles(category);
-	const recentArticles: Article[] = await GetRecentArticles(category);
 
-	return (
-		<div className={styles.category}>
-			<h1>{category?.title}</h1>
-			<div className={styles.content}>
-				<div className={`${styles.showcase} ${styles.smallShowcase}`}>
-					<h2>Most popular articles</h2>
-					{popularArticles?.map((a, i) => {
-						{
-							return (
-								<Link key={i} href={`/articles/${category.name}/${a.name}`}>
-									{a.name}
-								</Link>
-							);
-						}
-					})}
-				</div>
+export default async function CategoryPage({ params }: { params: { categoryName: string } }) {
+  const categoryName = params.categoryName.toLowerCase().replaceAll("%20", " ");
+  const category: Category = await GetCategory(categoryName);
+  const allArticles: Article[] = await GetAllArticles(categoryName);
+  const popularArticles: Article[] = await GetPopularArticles(categoryName);
+  const recentArticles: Article[] = await GetRecentArticles(categoryName);
+  console.log(popularArticles);
+  return (
+    <div className={styles.category}>
+      <h1>{category?.title}</h1>
+      <div className={styles.content}>
+        <div className={`${styles.showcase} ${styles.smallShowcase}`}>
+          <h2>Most popular articles</h2>
+          {popularArticles?.map((a, i) => {
+            {
+              return (
+                <Link key={i} href={`/articles/${category.name}/${a.name}`}>
+                  {a.name}
+                </Link>
+              );
+            }
+          })}
+        </div>
 
-				{/* <div className={`${styles.showcase} ${styles.smallShowcase}`}>
+        {/* <div className={`${styles.showcase} ${styles.smallShowcase}`}>
 					<h2>Most recent articles</h2>
 					{recentArticles?.map((a, i) => {
 						{
@@ -70,19 +79,19 @@ export default async function CategoryPage({
 					})}
 				</div> */}
 
-				<div className={styles.showcase}>
-					<h2>All articles</h2>
-					{allArticles?.map((a, i) => {
-						{
-							return (
-								<Link key={i} href={`/articles/${category.name}/${a.name}`}>
-									{a.name}
-								</Link>
-							);
-						}
-					})}
-				</div>
-			</div>
-		</div>
-	);
+        <div className={styles.showcase}>
+          <h2>All articles</h2>
+          {allArticles?.map((a, i) => {
+            {
+              return (
+                <Link key={i} href={`/articles/${category.name}/${a.name}`}>
+                  {a.name}
+                </Link>
+              );
+            }
+          })}
+        </div>
+      </div>
+    </div>
+  );
 }
