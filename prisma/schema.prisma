@@ -11,12 +11,13 @@ model Article {
   id                  Int                 @id @default(autoincrement())
   name                String              @unique
   title               String              @unique
+  introduction        String              @default("")
+  imageId             Int?
+  image               Image?              @relation(fields: [imageId], references: [id])
   markdown            String
   contentTableEntries ContentTableEntry[]
   categoryId          Int?
   category            Category?           @relation(fields: [categoryId], references: [id])
-  typeId              Int?
-  type                ArticleType?        @relation(fields: [typeId], references: [id])
   dateCreated         DateTime            @default(now())
   dateUpdated         DateTime            @default(now())
 }
@@ -44,20 +45,13 @@ model Category {
   dateUpdated DateTime  @default(now())
 }
 
-model ArticleType {
+model Image {
   id          Int       @id @default(autoincrement())
   name        String    @unique
-  title       String    @unique
-  Article     Article[]
+  alt         String    @default("")
+  url         String    @default("")
   dateCreated DateTime  @default(now())
-  dateUpdated DateTime  @default(now())
-}
-
-model Image {
-  id          Int      @id @default(autoincrement())
-  name        String   @unique
-  url         String   @default("")
-  dateCreated DateTime @default(now())
+  Article     Article[]
 }
 
 model Svg {

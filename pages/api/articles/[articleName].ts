@@ -3,7 +3,7 @@ import prisma from "../../../lib/prisma";
 import { Article, Prisma, ContentTableEntry } from '@prisma/client';
 import { ResponseError } from "../../../types/responseErrors";
 
-type ArticleWithIncludes = Prisma.ArticleGetPayload<{ include: { contentTableEntries: true, category: true } }>
+type ArticleWithIncludes = Prisma.ArticleGetPayload<{ include: { contentTableEntries: true, category: true, image: true } }>
 
 function sortContentTableEntries(entries: ContentTableEntry[]): ContentTableEntry[] {
   return entries.sort((a, b) => a.orderIndex - b.orderIndex);
@@ -16,7 +16,7 @@ export default async function handler(req: Request, res: Response) {
   const articleName: string = req.query.articleName.toString();
 
   await prisma.article
-    .findUnique({ where: { name: articleName }, include: { category: true, contentTableEntries: true } })
+    .findUnique({ where: { name: articleName }, include: { category: true, contentTableEntries: true, image: true } })
     .then((result: ArticleWithIncludes) => {
       if (result !== null) {
         result.contentTableEntries = sortContentTableEntries(result.contentTableEntries);

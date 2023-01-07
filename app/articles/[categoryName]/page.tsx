@@ -48,7 +48,7 @@ export default async function CategoryPage({ params }: { params: { categoryName:
   const allArticles: Article[] = await GetAllArticles(categoryName);
   const popularArticles: Article[] = await GetPopularArticles(categoryName);
   const recentArticles: Article[] = await GetRecentArticles(categoryName);
-  console.log(popularArticles);
+
   return (
     <div className={styles.category}>
       <h1>{category?.title}</h1>

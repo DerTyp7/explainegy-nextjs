@@ -4,9 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Category } from "@prisma/client";
-import urlJoin from "url-join";
-import { apiUrl } from "./global";
-import { GetStaticProps } from "next";
 
 function switchTheme(theme) {
   const bodyElement = document.getElementsByTagName("body")[0];
@@ -71,7 +68,16 @@ export default function Nav({ categories }: { categories: Category[] }) {
   return (
     <nav className={styles.nav}>
       <div className={styles.containerLeft}>
-        <Image src={"/images/logo.svg"} height={40} width={160} alt="Nav bar logo" />
+        <Image
+          src={"/images/logo.svg"}
+          height={40}
+          width={160}
+          alt="Nav bar logo"
+          onClick={() => {
+            window.open("/", "_self");
+          }}
+          className={styles.logo}
+        />
         <div className={styles.links}>
           <div className={styles.dropDown}>
             <Link href="/articles">Categories</Link>
