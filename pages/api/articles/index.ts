@@ -31,9 +31,8 @@ export default async function handler(req: Request, res: Response) {
       take: limit,
       orderBy: orderByObj
     })
-    .then((result: Article[]) => {
+    .then((result: Article[]) => { //! ContentTableEntries not sorted
       if (result !== null) {
-
         res.end(JSON.stringify(result));
       } else {
         const error: ResponseError = {
