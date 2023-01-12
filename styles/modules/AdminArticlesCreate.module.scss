@@ -1,0 +1,23 @@
+@import "../variables.scss";
+
+.adminArticlesCreate {
+  .form {
+    display: grid;
+    gap: 70px;
+    grid-template-columns: $tutorial-content-table-width minmax(0px, 1fr);
+    margin: 0px auto;
+    max-width: 1800px;
+    padding: 0px 24px;
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      textarea {
+        color: var(--font-color);
+        background-color: rgba(16, 16, 16, 0.234);
+        width: 100%;
+        min-height: 500px;
+      }
+    }
+  }
+}

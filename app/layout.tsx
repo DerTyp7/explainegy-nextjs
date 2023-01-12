@@ -22,6 +22,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <head></head>
 
       <body className="body">
+        <p>If admin logged in create a small header here app/layout.tsx</p>
         <header>
           <Nav categories={await getCategories()} />
         </header>
