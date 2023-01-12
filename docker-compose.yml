@@ -1,10 +1,12 @@
 version: "3.9"
+volumes:
+  explainegy_pg:
 services:
   postgres:
     image: postgres:latest
     container_name: explainegy_postgres
     volumes:
-      - ./docker_data/postgres:/var/lib/postgresql/data
+      - explainegy_pg:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
