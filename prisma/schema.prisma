@@ -16,8 +16,8 @@ model Article {
   image               Image?              @relation(fields: [imageId], references: [id])
   markdown            String
   contentTableEntries ContentTableEntry[]
-  categoryId          Int?
-  category            Category?           @relation(fields: [categoryId], references: [id])
+  categoryId          Int
+  category            Category            @relation(fields: [categoryId], references: [id])
   dateCreated         DateTime            @default(now())
   dateUpdated         DateTime            @default(now())
 }
