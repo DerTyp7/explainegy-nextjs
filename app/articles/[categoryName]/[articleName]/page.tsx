@@ -8,6 +8,7 @@ import Image from "next/image";
 import urlJoin from "url-join";
 import { apiUrl } from "../../../global";
 import { Prisma } from "@prisma/client";
+import Markdown from "../../../Markdown";
 
 type ArticleWithIncludes = Prisma.ArticleGetPayload<{
   include: { contentTableEntries: true; category: true; image: true };
@@ -63,13 +64,15 @@ export default async function ArticlePage({ params }: { params: { articleName: s
           />
           <p>{article?.introduction}</p>
         </div>
-        <div
+        <Markdown value={markdown} />
+        <LoadMarkdown />
+        {/* <div
           className="markdown"
           dangerouslySetInnerHTML={{
             __html: ParseMarkdown(markdown),
           }}
         ></div>
-        <LoadMarkdown />
+        <LoadMarkdown /> */}
       </div>
       <Sidebar />
     </div>
