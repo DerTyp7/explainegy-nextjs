@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import styles from "../../../../styles/modules/AdminArticlesCreate.module.scss";
 import { PostArticle } from "../../../../types/postData";
 import Markdown from "../../../Markdown";
@@ -11,27 +11,28 @@ import "../../../../styles/inputs.scss";
 import Select, { GroupBase, OptionsOrGroups } from "react-select";
 import { apiUrl } from "../../../global";
 import urlJoin from "url-join";
+import { getUrlSafeString } from "../../../utils";
 
 export default function AdminArticlesCreate() {
   const [formData, setFormData] = useState<PostArticle>(null);
+  const [title, setTitle] = useState<string>("");
   const [markdown, setMarkdown] = useState<string>("");
-  const [selectedCategory, setSelectedCategory] = useState<string>();
+  const [selectCategoriesOptions, setSelectCategoriesOptions] = useState<any>([]);
+
   const titleRef = useRef<HTMLInputElement>(null);
+  const categorySelectRef = useRef(null);
+  const introductionRef = useRef<HTMLInputElement>(null);
   const markdownTextAreaRef = useRef<HTMLTextAreaElement>(null);
 
-  const selectCategoriesOptions: any = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
-  ];
   function handleFormChange() {
     setMarkdown(markdownTextAreaRef.current.value);
+    setTitle(titleRef.current.value);
     setFormData({
-      name: titleRef.current.value.replaceAll(" ", "%20"),
+      name: getUrlSafeString(titleRef.current.value),
       title: titleRef.current.value,
-      introduction: "test intro",
+      introduction: introductionRef.current.value,
       markdown: markdown,
-      categoryId: 2,
+      categoryId: Number(categorySelectRef?.current?.getValue()[0]?.value),
     });
   }
 
@@ -46,6 +47,27 @@ export default function AdminArticlesCreate() {
       body: JSON.stringify(formData),
     });
   }
+
+  useEffect(() => {
+    const fetchCategoryOptions = async () => {
+      const result: Response = await fetch(urlJoin(apiUrl, `categories`), {
+        cache: "force-cache",
+        next: { revalidate: 60 * 1 },
+      });
+      console.log();
+
+      const categories = await result.json();
+      let newSelectCategoriesOptions = [];
+
+      categories?.forEach((c) => {
+        newSelectCategoriesOptions.push({ value: c.id, label: c.title });
+      });
+      setSelectCategoriesOptions(newSelectCategoriesOptions);
+    };
+    fetchCategoryOptions().catch((err) => {
+      console.log(err);
+    });
+  }, []);
 
   return (
     <div className={styles.adminArticlesCreate}>
@@ -62,25 +84,56 @@ export default function AdminArticlesCreate() {
         <div className={styles.contentTableEditor}>contenttable</div>
 
         <div className={styles.articleEditor}>
-          <Select
-            className="react-select-container"
-            classNamePrefix="react-select"
-            value={selectedCategory}
-            onChange={handleFormChange}
-            options={selectCategoriesOptions}
-          />
-          <input
-            onChange={handleFormChange}
-            className={""}
-            type="text"
-            name="title"
-            placeholder="title"
-            ref={titleRef}
-          />
+          <div className={styles.title}>
+            <label htmlFor="title">Title</label>
 
+            <div className={styles.titleInputs}>
+              <input
+                onChange={handleFormChange}
+                className={""}
+                type="text"
+                name="title"
+                placeholder="title"
+                ref={titleRef}
+              />
+              <input
+                readOnly={true}
+                onChange={handleFormChange}
+                className={""}
+                type="text"
+                name="name"
+                value={getUrlSafeString(title)}
+              />
+            </div>
+          </div>
+          <div className={styles.category}>
+            <label htmlFor="title">Category</label>
+            <Select
+              ref={categorySelectRef}
+              className="react-select-container"
+              classNamePrefix="react-select"
+              onChange={handleFormChange}
+              options={selectCategoriesOptions}
+            />
+          </div>
+          <div className={styles.introduction}>
+            {" "}
+            <label htmlFor="title">Introduction</label>
+            <input
+              onChange={handleFormChange}
+              className={""}
+              type="text"
+              name="introduction"
+              placeholder="Introduction"
+              ref={introductionRef}
+            />
+          </div>
           <div className={styles.markdown}>
-            <textarea ref={markdownTextAreaRef} onChange={handleFormChange}></textarea>
-            <Markdown value={markdown} />
+            <label htmlFor="">Markdown Editor</label>
+            <div className={styles.markdownEditor}>
+              <textarea ref={markdownTextAreaRef} onChange={handleFormChange}></textarea>
+              <Markdown value={markdown} />
+            </div>
           </div>
         </div>
       </div>

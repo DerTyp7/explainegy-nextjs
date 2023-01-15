@@ -45,7 +45,7 @@ input {
     transition: none;
 
     &:hover {
-      border-color: rgba(95, 95, 95, 0.5);
+      border-color: rgba(116, 116, 116, 0.587);
     }
   }
 
@@ -58,7 +58,7 @@ input {
     background-color: var(--color-background-secondary);
 
     &:hover {
-      background-color: var(--bg-primary);
+      background-color: rgba(116, 116, 116, 0.587);
     }
   }
 
