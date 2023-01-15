@@ -84,6 +84,7 @@ export default function Nav({ categories }: { categories: Category[] }) {
             <div className={styles.dropDownContainer}>
               <div className={styles.content}>
                 <Link href={"/articles"}>All</Link>
+
                 {categories?.map((cat, i) => {
                   {
                     return (

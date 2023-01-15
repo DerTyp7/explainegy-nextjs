@@ -6,9 +6,15 @@
   /*! By default colors are in DARK mode */
   /* Colors: General */
   --color-background-body: #181a1b;
+  --color-background-secondary: #2c3032;
   --color-font: #ffffff;
   --color-font-muted: #929292;
   --color-shadow-nav: #00000033;
+
+  --color-error: #cf000f;
+  --color-success: #009944;
+  --color-info: #63c0df;
+  --color-warning: #f0541e;
 
   --color-overlay-mix: var(--color-font);
   --color-background-nav: transparent;

@@ -12,18 +12,12 @@ export default async function handler(req: Request, res: Response) {
       if (result !== null) {
         res.end(JSON.stringify(result));
       } else {
-        const error: ResponseError = {
-          code: "404",
-          message: "No categories found!",
-        };
-        res.status(404).send(JSON.stringify(error));
+        console.log("No categories found");
+        res.end(JSON.stringify([]));
       }
     })
     .catch((err) => {
-      const error: ResponseError = {
-        code: "500",
-        message: err,
-      };
-      res.status(500).send(JSON.stringify(error));
+      console.log(err);
+      res.end(JSON.stringify([]));
     });
 }

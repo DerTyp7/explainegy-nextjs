@@ -6,23 +6,33 @@ import { useState, useRef } from "react";
 import styles from "../../../../styles/modules/AdminArticlesCreate.module.scss";
 import { PostArticle } from "../../../../types/postData";
 import Markdown from "../../../Markdown";
+import { Category } from "@prisma/client";
+import "../../../../styles/inputs.scss";
+import Select, { GroupBase, OptionsOrGroups } from "react-select";
+import { apiUrl } from "../../../global";
+import urlJoin from "url-join";
 
 export default function AdminArticlesCreate() {
   const [formData, setFormData] = useState<PostArticle>(null);
   const [markdown, setMarkdown] = useState<string>("");
-
+  const [selectedCategory, setSelectedCategory] = useState<string>();
   const titleRef = useRef<HTMLInputElement>(null);
+  const markdownTextAreaRef = useRef<HTMLTextAreaElement>(null);
 
-  function handleFormChange({ newMarkdownText = markdown }) {
+  const selectCategoriesOptions: any = [
+    { value: "chocolate", label: "Chocolate" },
+    { value: "strawberry", label: "Strawberry" },
+    { value: "vanilla", label: "Vanilla" },
+  ];
+  function handleFormChange() {
+    setMarkdown(markdownTextAreaRef.current.value);
     setFormData({
       name: titleRef.current.value.replaceAll(" ", "%20"),
       title: titleRef.current.value,
       introduction: "test intro",
       markdown: markdown,
-      categoryId: 1,
+      categoryId: 2,
     });
-
-    setMarkdown(newMarkdownText);
   }
 
   async function postData() {
@@ -49,20 +59,29 @@ export default function AdminArticlesCreate() {
         send
       </button>
       <div className={styles.form}>
-        <div className={styles.ContentTable}>contenttable</div>
+        <div className={styles.contentTableEditor}>contenttable</div>
 
-        <div className={styles.content}>
+        <div className={styles.articleEditor}>
+          <Select
+            className="react-select-container"
+            classNamePrefix="react-select"
+            value={selectedCategory}
+            onChange={handleFormChange}
+            options={selectCategoriesOptions}
+          />
           <input
-            onChange={() => {
-              handleFormChange({});
-            }}
+            onChange={handleFormChange}
+            className={""}
             type="text"
             name="title"
             placeholder="title"
             ref={titleRef}
           />
-          <textarea></textarea>
-          <Markdown value={markdown} />
+
+          <div className={styles.markdown}>
+            <textarea ref={markdownTextAreaRef} onChange={handleFormChange}></textarea>
+            <Markdown value={markdown} />
+          </div>
         </div>
       </div>
     </div>

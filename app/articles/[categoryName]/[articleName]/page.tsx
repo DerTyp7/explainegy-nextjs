@@ -65,7 +65,7 @@ export default async function ArticlePage({ params }: { params: { articleName: s
           <p>{article?.introduction}</p>
         </div>
         <Markdown value={markdown} />
-        <LoadMarkdown />
+
         {/* <div
           className="markdown"
           dangerouslySetInnerHTML={{
