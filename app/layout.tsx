@@ -6,6 +6,7 @@ import Footer from "./Footer";
 import { Category } from "@prisma/client";
 import urlJoin from "url-join";
 import { apiUrl } from "./global";
+import Link from "next/link";
 
 async function getCategories(): Promise<Category[]> {
   const result: Response = await fetch(urlJoin(apiUrl, `categories`), {
@@ -22,7 +23,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <head></head>
 
       <body className="body">
-        <p>If admin logged in create a small header here app/layout.tsx</p>
+        <div>
+          <Link href={"/admin"}> Admin</Link>
+        </div>
         <header>
           <Nav categories={await getCategories()} />
         </header>
