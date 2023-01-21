@@ -2,7 +2,7 @@ import { marked } from "marked";
 import ContentTable from "./ContentTable";
 import Sidebar from "./Sidebar";
 import styles from "../../../../styles/modules/Article.module.scss";
-import LoadMarkdown from "./LoadMarkdown";
+
 import { Article, Category, ContentTableEntry } from "@prisma/client";
 import Image from "next/image";
 import urlJoin from "url-join";
@@ -23,15 +23,11 @@ export async function GetArticle(articleName: string): Promise<any> {
   return result.json();
 }
 
-function ParseMarkdown(markdown: string): string {
-  let result = marked.parse(markdown);
-  return result;
-}
-
 //* MAIN
 export default async function ArticlePage({ params }: { params: { articleName: string; categoryName: string } }) {
   const articleName: string = params.articleName.toLowerCase().replaceAll("%20", " ");
   const article: ArticleWithIncludes = await GetArticle(articleName);
+
   const dateUpdated: Date = new Date(article.dateUpdated);
   const dateCreated: Date = new Date(article.dateCreated);
   const dateOptions: Intl.DateTimeFormatOptions = { month: "long", day: "numeric", year: "numeric" };

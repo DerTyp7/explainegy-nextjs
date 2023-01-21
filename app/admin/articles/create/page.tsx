@@ -51,7 +51,7 @@ export default function AdminArticlesCreate() {
   useEffect(() => {
     const fetchCategoryOptions = async () => {
       const result: Response = await fetch(urlJoin(apiUrl, `categories`), {
-        cache: "force-cache",
+        cache: "no-cache",
         next: { revalidate: 60 * 1 },
       });
       console.log();

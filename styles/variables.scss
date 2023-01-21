@@ -1,12 +1,8 @@
 // This file stores all SCSS variables in one place to simplify the use of variables throughout the project.
 
 /* Typography */
-$font-size-default: 1em;
-$font-size-headline-step: 0.12em;
-$font-letter-spacing-default: 1px;
-$font-letter-spacing-headline-large: 2px;
-$font-letter-spacing-headline-medium: 1.5px;
-$font-letter-spacing-headline-small: 1.25px;
+$font-size-default: 1rem;
+$font-letter-spacing-default: 0.1rem;
 
 /* Tutorial Page */
 $tutorial-grid-sticky-top: 60px;

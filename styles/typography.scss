@@ -17,40 +17,33 @@ body {
 
 /* Headings */
 h1 {
-  font-size: calc($font-size-default + $font-size-headline-step * 6);
+  font-size: 2rem;
   font-weight: bold;
-  letter-spacing: $font-letter-spacing-headline-large;
 }
 
 h2 {
-  // 5 skipped on purpose
-  font-size: calc($font-size-default + $font-size-headline-step * 4);
+  font-size: 1.7rem;
   font-weight: bold;
-  letter-spacing: $font-letter-spacing-headline-medium;
 }
 
 h3 {
-  font-size: calc($font-size-default + $font-size-headline-step * 3);
+  font-size: 1.5rem;
   font-weight: bold;
-  letter-spacing: $font-letter-spacing-headline-small;
 }
 
 h4 {
-  font-size: calc($font-size-default + $font-size-headline-step * 2);
+  font-size: 1.4rem;
   font-weight: bold;
-  letter-spacing: $font-letter-spacing-headline-small;
 }
 
 h5 {
-  font-size: calc($font-size-default + $font-size-headline-step * 1);
+  font-size: 1.2rem;
   font-weight: bold;
-  letter-spacing: $font-letter-spacing-headline-small;
 }
 
 h6 {
-  font-size: $font-size-default;
+  font-size: 1.1rem;
   font-weight: bold;
-  letter-spacing: 1.25px;
 }
 
 /* General Texts */

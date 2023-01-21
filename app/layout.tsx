@@ -10,7 +10,7 @@ import Link from "next/link";
 
 async function getCategories(): Promise<Category[]> {
   const result: Response = await fetch(urlJoin(apiUrl, `categories`), {
-    cache: "force-cache",
+    cache: "no-cache",
     next: { revalidate: 3600 },
   });
 

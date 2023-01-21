@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import prisma from "../../../lib/prisma";
-import { Article, Prisma, ContentTableEntry } from '@prisma/client';
+import { Prisma, ContentTableEntry } from '@prisma/client';
 import { ResponseError } from "../../../types/responseErrors";
+import { getUrlSafeString } from "../../../app/utils";
 
 type ArticleWithIncludes = Prisma.ArticleGetPayload<{ include: { contentTableEntries: true, category: true, image: true } }>
 
@@ -13,8 +14,8 @@ function sortContentTableEntries(entries: ContentTableEntry[]): ContentTableEntr
 export default async function handler(req: Request, res: Response) {
   res.setHeader("Content-Type", "application/json");
 
-  const articleName: string = req.query.articleName.toString();
-
+  const articleName: string = getUrlSafeString(req.query.articleName.toString())
+  console.log(articleName)
   await prisma.article
     .findUnique({ where: { name: articleName }, include: { category: true, contentTableEntries: true, image: true } })
     .then((result: ArticleWithIncludes) => {

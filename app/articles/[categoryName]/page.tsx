@@ -59,7 +59,7 @@ export default async function CategoryPage({ params }: { params: { categoryName:
             {
               return (
                 <Link key={i} href={`/articles/${category.name}/${a.name}`}>
-                  {a.name}
+                  {a.title}
                 </Link>
               );
             }
@@ -85,7 +85,7 @@ export default async function CategoryPage({ params }: { params: { categoryName:
             {
               return (
                 <Link key={i} href={`/articles/${category.name}/${a.name}`}>
-                  {a.name}
+                  {a.title}
                 </Link>
               );
             }
