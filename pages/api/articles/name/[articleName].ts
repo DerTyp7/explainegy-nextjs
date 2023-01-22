@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import prisma from "../../../lib/prisma";
+import prisma from "../../../../lib/prisma";
 import { Prisma } from '@prisma/client';
-import { ResponseError } from "../../../types/responseErrors";
-import { formatTextToUrlName } from "../../../utils";
+import { ResponseError } from "../../../../types/responseErrors";
+import { formatTextToUrlName } from "../../../../utils";
 
 type ArticleWithIncludes = Prisma.ArticleGetPayload<{ include: { contentTableEntries: true, category: true, image: true } }>
 
@@ -27,6 +27,7 @@ export default async function handler(req: Request, res: Response) {
       }
     })
     .catch((err) => {
+
       const error: ResponseError = {
         code: "500",
         message: err,

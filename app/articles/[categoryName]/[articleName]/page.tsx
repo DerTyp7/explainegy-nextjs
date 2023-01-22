@@ -14,7 +14,7 @@ type ArticleWithIncludes = Prisma.ArticleGetPayload<{
 }>;
 
 export async function GetArticle(articleName: string): Promise<any> {
-  const result: Response = await fetch(urlJoin(apiUrl, `articles/${articleName ?? ""}`), {
+  const result: Response = await fetch(urlJoin(apiUrl, `articles/name/${articleName ?? ""}`), {
     cache: "force-cache",
     next: { revalidate: 60 * 10 },
   });

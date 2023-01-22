@@ -1,33 +1,30 @@
 "use client";
 
 import React from "react";
-
 import { useState, useRef, useEffect } from "react";
-import styles from "../../../../styles/modules/AdminArticlesCreate.module.scss";
-import { PostArticle } from "../../../../types/postData";
-import Markdown from "../../../Markdown";
-import { Article, Category, Prisma } from "@prisma/client";
-import "../../../../styles/inputs.scss";
-import "../../../../styles/buttons.scss";
-import Select, { GroupBase, OptionsOrGroups } from "react-select";
-import { apiUrl } from "../../../global";
-import urlJoin from "url-join";
-import { formatTextToUrlName } from "../../../../utils";
-import { isValidText } from "../../../../validators";
+import styles from "../../../../../styles/modules/ArticleEditor.module.scss";
+import { Prisma } from "@prisma/client";
+import "../../../../../styles/inputs.scss";
+import "../../../../../styles/buttons.scss";
+import Select from "react-select";
 import { useRouter } from "next/navigation";
-import ContentTable from "../../../articles/[categoryName]/[articleName]/ContentTable";
-import { IContentTableEntry } from "../../../../types/contentTable";
+import urlJoin from "url-join";
+import { IContentTableEntry } from "../../../../../types/contentTable";
+import { CreateArticle, UpdateArticle } from "../../../../../types/api";
+import { formatTextToUrlName } from "../../../../../utils";
+import { isValidText } from "../../../../../validators";
+import { apiUrl } from "../../../../global";
+import Markdown from "../../../../Markdown";
 
 type ArticleWithCategory = Prisma.ArticleGetPayload<{ include: { category: true } }>;
 
-export default function AdminArticlesCreate() {
+export default function ArticleEditor({ params }: { params: { articleId: string } }) {
   const router = useRouter();
-
   const [title, setTitle] = useState<string>("");
   const [selectCategoriesOptions, setSelectCategoriesOptions] = useState<any>([]);
   const [introduction, setIntroduction] = useState<string>("");
   const [markdown, setMarkdown] = useState<string>("");
-  const [contentTable, setContentTable] = useState<IContentTableEntry[]>([]);
+  const [contentTable, setContentTable] = useState<any>([]);
 
   const titleRef = useRef<HTMLInputElement>(null);
   const categorySelectRef = useRef(null);
@@ -52,40 +49,102 @@ export default function AdminArticlesCreate() {
     });
   }
 
+  function removeEntry(index: number) {
+    let newArray = [...contentTable];
+    newArray.splice(index, 1);
+    setContentTable(newArray);
+  }
+
   function handleFormChange() {
     setMarkdown(markdownTextAreaRef.current.value);
     setTitle(titleRef.current.value);
     setIntroduction(introductionRef.current.value);
   }
 
-  async function postData() {
-    const formData: PostArticle = {
+  // Create or update article
+  async function handleResponse(res: Response) {
+    const json = await res.json();
+    errorTextRef.current.innerText = json.error ?? "";
+    if (json.success) {
+      const newArticle: ArticleWithCategory = json.data;
+      router.push(urlJoin(`/articles/`, newArticle.category.name, newArticle.name));
+    }
+  }
+
+  async function updateArticle() {
+    console.log("Update article");
+    const payload: UpdateArticle = {
+      id: params.articleId,
       title: titleRef.current.value,
       introduction: introductionRef.current.value,
       markdown: markdown,
       categoryId: Number(categorySelectRef?.current?.getValue()[0]?.value),
       contentTable: contentTable,
     };
-    console.log(formData);
-    const result = await fetch("/api/articles/create", {
+    console.log(payload);
+
+    await fetch("/api/articles/", {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      cache: "no-cache",
+      body: JSON.stringify(payload),
+    })
+      .then(handleResponse)
+      .catch(console.error);
+  }
+
+  async function createArticle() {
+    console.log("Create article");
+    const payload: CreateArticle = {
+      title: titleRef.current.value,
+      introduction: introductionRef.current.value,
+      markdown: markdown,
+      categoryId: Number(categorySelectRef?.current?.getValue()[0]?.value),
+      contentTable: contentTable,
+    };
+    console.log(payload);
+
+    await fetch("/api/articles/", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(formData),
-    });
-
-    const response = await result.json();
-    console.log(response);
-    errorTextRef.current.innerText = response.error ?? "";
-    if (response.success) {
-      const newArticle: ArticleWithCategory = response.data;
-      router.push(urlJoin(`/articles/`, newArticle.category.name, newArticle.name));
-    }
+      cache: "no-cache",
+      body: JSON.stringify(payload),
+    })
+      .then(handleResponse)
+      .catch(console.error);
   }
 
+  // App
   useEffect(() => {
+    const fetchExistingArticle = async () => {
+      const result: Response = await fetch(urlJoin(apiUrl, `articles/${params.articleId}`), {
+        cache: "no-cache",
+        next: { revalidate: 60 * 1 },
+      });
+
+      const article = await result.json();
+      console.log(article);
+      if (article.code == "404") {
+        router.push(urlJoin(`/admin/articles/editor/0`));
+      } else {
+        titleRef.current.value = article.title;
+        introductionRef.current.value = article.introduction;
+        markdownTextAreaRef.current.value = article.markdown;
+        categorySelectRef.current.setValue({ value: article.category.id, label: article.category.title });
+
+        setTitle(article.title);
+        setIntroduction(article.introduction);
+        setMarkdown(article.markdown);
+        setContentTable(article.contentTable);
+      }
+    };
+
     const fetchCategoryOptions = async () => {
       const result: Response = await fetch(urlJoin(apiUrl, `categories`), {
         cache: "no-cache",
@@ -100,23 +159,34 @@ export default function AdminArticlesCreate() {
       });
       setSelectCategoriesOptions(newSelectCategoriesOptions);
     };
+
     fetchCategoryOptions().catch((err) => {
       console.log(err);
     });
+
+    if (params.articleId != "0") {
+      fetchExistingArticle().catch((err) => {
+        console.log(err);
+      });
+    }
   }, []);
 
   return (
     <div className={styles.adminArticlesCreate}>
-      <h1>Create a new article</h1>
+      <h1>{params.articleId == "0" ? "Create new article" : "Update article"}</h1>
       <div className={styles.formControl}>
         <p className="text-error" ref={errorTextRef}></p>
         <button
           type="button"
           onClick={() => {
-            postData();
+            if (params.articleId != "0") {
+              updateArticle();
+            } else {
+              createArticle();
+            }
           }}
         >
-          Create Article
+          {params.articleId == "0" ? "Create article" : "Update article"}
         </button>
       </div>
 
@@ -177,7 +247,7 @@ export default function AdminArticlesCreate() {
             <label htmlFor="">Table of contents</label>
             <div className={styles.contentTableEditor}>
               <div className={styles.entries}>
-                {contentTable.map((entry: IContentTableEntry, i: number) => {
+                {contentTable?.map((entry: IContentTableEntry, i: number) => {
                   return (
                     <div key={i}>
                       <input
@@ -186,6 +256,7 @@ export default function AdminArticlesCreate() {
                         }}
                         type="text"
                         placeholder={"Anchor"}
+                        defaultValue={entry.anchor}
                       />
                       <input
                         onChange={(e) => {
@@ -193,14 +264,22 @@ export default function AdminArticlesCreate() {
                         }}
                         type="text"
                         placeholder={"Title"}
-                      />
+                        defaultValue={entry.title}
+                      />{" "}
+                      <button
+                        onClick={() => {
+                          removeEntry(i);
+                        }}
+                      >
+                        Remove
+                      </button>
                     </div>
                   );
                 })}
 
                 <button
                   onClick={() => {
-                    setContentTable([...contentTable, { title: "Title", anchor: "Anchor" }]);
+                    setContentTable([...contentTable, { title: "", anchor: "" }]);
                   }}
                 >
                   Add
