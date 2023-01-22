@@ -1,14 +1,15 @@
 import React from "react";
 import styles from "../../../../styles/modules/ArticleContentTable.module.scss";
-import { Article, ContentTableEntry } from "@prisma/client";
+import { Article } from "@prisma/client";
+import { IContentTableEntry } from "../../../../types/contentTable";
 
-export default function ContentTable({ contentTableEntries }: { contentTableEntries: ContentTableEntry[] }) {
+export default function ContentTable({ contentTableData }: { contentTableData: any }) {
   return (
     <div className={styles.articleContentTable}>
       <div className={styles.stickyContainer}>
         <div className={styles.list}>
           <h2>Contents</h2>
-          {contentTableEntries?.map((e, i) => {
+          {contentTableData?.map((e, i) => {
             return (
               <a key={i} href={"#" + e.anchor}>
                 {e.title}
@@ -16,7 +17,7 @@ export default function ContentTable({ contentTableEntries }: { contentTableEntr
             );
           })}
         </div>
-        {contentTableEntries?.length < 15 ? <div className={styles.adContainer}>Future advertisement</div> : ""}
+        {contentTableData?.length < 15 ? <div className={styles.adContainer}>Future advertisement</div> : ""}
       </div>
     </div>
   );

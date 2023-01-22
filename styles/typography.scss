@@ -70,6 +70,10 @@ a {
   font-size: 0.8em;
 }
 
+.text-error {
+  font-weight: bold;
+  color: var(--color-error);
+}
 label {
   font-weight: bold;
   font-size: 0.9em;

@@ -2,16 +2,15 @@ import { marked } from "marked";
 import ContentTable from "./ContentTable";
 import Sidebar from "./Sidebar";
 import styles from "../../../../styles/modules/Article.module.scss";
-
-import { Article, Category, ContentTableEntry } from "@prisma/client";
 import Image from "next/image";
 import urlJoin from "url-join";
 import { apiUrl } from "../../../global";
 import { Prisma } from "@prisma/client";
 import Markdown from "../../../Markdown";
+import { IContentTableEntry } from "../../../../types/contentTable";
 
 type ArticleWithIncludes = Prisma.ArticleGetPayload<{
-  include: { contentTableEntries: true; category: true; image: true };
+  include: { category: true; image: true };
 }>;
 
 export async function GetArticle(articleName: string): Promise<any> {
@@ -35,7 +34,7 @@ export default async function ArticlePage({ params }: { params: { articleName: s
 
   return (
     <div className={styles.article}>
-      <ContentTable contentTableEntries={article.contentTableEntries} />
+      <ContentTable contentTableData={article.contentTable ? article.contentTable : []} />
       <div className={styles.tutorialContent}>
         <div className={styles.header}>
           <p className={`${styles.dates} text-muted`}>
@@ -78,7 +77,7 @@ export default async function ArticlePage({ params }: { params: { articleName: s
 export async function generateStaticParams() {
   const articles: ArticleWithIncludes[] = await (
     await fetch(urlJoin(apiUrl, `articles/`), {
-      cache: "force-cache",
+      cache: "no-cache",
       next: { revalidate: 60 * 10 },
     })
   ).json();

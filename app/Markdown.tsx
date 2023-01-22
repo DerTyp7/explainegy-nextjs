@@ -10,6 +10,20 @@ import remarkGemoji from "remark-gemoji";
 import remarkStringify from "remark-stringify";
 import { useState, useEffect } from "react";
 import { useLocalStorage } from "usehooks-ts";
+import React from "react";
+import Head from "./head";
+import { formatTextToUrlName } from "../utils";
+
+function flatten(text, child) {
+  return typeof child === "string" ? text + child : React.Children.toArray(child.props.children).reduce(flatten, text);
+}
+
+function HeadingRenderer({ children, level }) {
+  children = React.Children.toArray(children);
+  const text = children.reduce(flatten, "");
+  return React.createElement("h" + level, { id: formatTextToUrlName(text) }, children);
+}
+
 export default function Markdown({ value }: { value: any }) {
   return (
     <div>
@@ -18,6 +32,12 @@ export default function Markdown({ value }: { value: any }) {
         //@ts-ignore
         remarkPlugins={[remarkGfm, remarkGemoji, remarkStringify]}
         components={{
+          h1: HeadingRenderer,
+          h2: HeadingRenderer,
+          h3: HeadingRenderer,
+          h4: HeadingRenderer,
+          h5: HeadingRenderer,
+          h6: HeadingRenderer,
           code({ node, inline, className, children, ...props }) {
             const match = /language-(\w+)/.exec(className || "");
             return !inline ? (

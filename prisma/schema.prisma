@@ -8,29 +8,18 @@ datasource db {
 }
 
 model Article {
-  id                  Int                 @id @default(autoincrement())
-  name                String              @unique
-  title               String              @unique
-  introduction        String              @default("")
-  imageId             Int?
-  image               Image?              @relation(fields: [imageId], references: [id])
-  markdown            String
-  contentTableEntries ContentTableEntry[]
-  categoryId          Int
-  category            Category            @relation(fields: [categoryId], references: [id])
-  dateCreated         DateTime            @default(now())
-  dateUpdated         DateTime            @default(now())
-}
-
-model ContentTableEntry {
-  id          Int      @id @default(autoincrement())
-  title       String
-  anchor      String
-  orderIndex  Int
-  articleId   Int
-  article     Article  @relation(fields: [articleId], references: [id])
-  dateCreated DateTime @default(now())
-  dateUpdated DateTime @default(now())
+  id           Int      @id @default(autoincrement())
+  name         String   @unique
+  title        String   @unique
+  introduction String   @default("")
+  imageId      Int?
+  image        Image?   @relation(fields: [imageId], references: [id])
+  markdown     String
+  contentTable Json?
+  categoryId   Int
+  category     Category @relation(fields: [categoryId], references: [id])
+  dateCreated  DateTime @default(now())
+  dateUpdated  DateTime @default(now())
 }
 
 model Category {

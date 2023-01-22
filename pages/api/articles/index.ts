@@ -27,7 +27,7 @@ export default async function handler(req: Request, res: Response) {
   await prisma.article
     .findMany({
       where: { category: categoryName.length > 0 ? category : undefined },
-      include: { category: true, contentTableEntries: true },
+      include: { category: true },
       take: limit,
       orderBy: orderByObj
     })

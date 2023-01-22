@@ -1,8 +1,11 @@
+import { IContentTableEntry } from "./contentTable";
+
 export interface PostArticle {
-  name: string;
   title: string;
+  name?: string;
   markdown: string;
   introduction: string;
   categoryId: number;
+  contentTable: IContentTableEntry[]
   imageId?: number;
 }
