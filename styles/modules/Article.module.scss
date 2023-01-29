@@ -1,0 +1,60 @@
+@import "../variables.scss";
+.article {
+  display: grid;
+  gap: 70px;
+  grid-template-columns: $tutorial-content-table-width minmax(0px, 1fr) $tutorial-sidebar-width;
+  margin: 0px auto;
+  max-width: 1800px;
+  padding: 0px 24px;
+
+  @media (max-width: $tutorial-breakpoint-1) {
+    grid-template-columns: $tutorial-content-table-width 1fr;
+  }
+
+  @media (max-width: $tutorial-breakpoint-2) {
+    grid-template-columns: 1fr;
+  }
+  .header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0px 10px 0px;
+    gap: 10px 0px;
+
+    .dates {
+      text-align: center;
+    }
+
+    img {
+      width: min(100%, 750px);
+      height: auto;
+      aspect-ratio: 15/7;
+      border-radius: 10px;
+    }
+
+    .tags {
+      display: flex;
+      flex-direction: row;
+      gap: 5px 10px;
+      a {
+        font-size: 0.8em;
+        background-color: var(--color-background-article-tag);
+        opacity: 0.9;
+        color: var(--color-font-article-tag);
+        padding: 5px 10px 5px 10px;
+        border-radius: 5px;
+        text-decoration: none;
+
+        &:hover {
+          color: var(--color-font-article-tag) !important;
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  .tutorialContent {
+    min-width: 0;
+  }
+}

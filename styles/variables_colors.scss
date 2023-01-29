@@ -1,0 +1,70 @@
+// We use pure CSS variables in this file because SCSS variables get hardcoded after compiling,
+// which means the dynamic changing effect is lost.
+// Using CSS variables allows us to change the values at runtime
+
+:root {
+  /*! By default colors are in DARK mode */
+  /* Colors: General */
+  --color-background-body: #181a1b;
+  --color-background-secondary: #2c3032;
+  --color-font: #ffffff;
+  --color-font-muted: #929292;
+  --color-shadow-nav: #00000033;
+
+  --color-error: #cf000f;
+  --color-success: #009944;
+  --color-info: #63c0df;
+  --color-warning: #f0541e;
+
+  --color-overlay-mix: var(--color-font);
+  --color-background-nav: transparent;
+  --color-svg-nav: #bfbfbf;
+
+  --color-background-card: #7b7b7b21;
+  --color-background-dropdown: var(--color-background-body);
+  --color-accent: #2294ff;
+  --color-font-link: var(--color-accent);
+  --color-font-article-tag: #fff;
+  --color-background-article-tag: #007aec;
+  --color-font-link-hover: #5caffc;
+
+  /* Colors: Markdown */
+  --md-color-font: #dcd9d9;
+  --md-color-headline: #e5e4e4;
+  --md-color-hr: #7d7d7d7b;
+
+  --md-color-table-col-even-background: #3b556f;
+  --md-color-table-col-odd-background: #2f4459;
+  --md-color-table-row-even-background: #3434342c;
+  --md-color-table-row-odd-background: transparent;
+  --md-color-blockquote-border: var(--color-accent);
+  --md-color-blockquote-background: #34343433;
+
+  .theme-light {
+    --color-background-body: #ffffff;
+    --color-font: #000000;
+    --color-shadow-nav: #000c2b0d;
+
+    --color-overlay-mix: var(--color-font);
+    --color-background-nav: transparent;
+    --color-svg-nav: #363636;
+
+    --color-background-card: rgba(171, 170, 170, 0.13);
+    --color-background-dropdown: var(--color-background-body);
+    --color-accent: #2294ff;
+    --color-font-link: var(--color-accent);
+    --color-font-link-hover: #0966be;
+
+    /* Colors: Markdown */
+    --md-color-font: rgb(33, 33, 33);
+    --md-color-headline: rgb(22, 22, 22);
+    --md-color-hr: rgba(145, 145, 145, 0.481);
+
+    --md-color-table-col-even-background: #3b556f;
+    --md-color-table-col-odd-background: #2f4459;
+    --md-color-table-row-even-background: rgba(150, 148, 148, 0.174);
+    --md-color-table-row-odd-background: transparent;
+    --md-color-blockquote-border: var(--color-accent);
+    --md-color-blockquote-background: rgba(176, 175, 175, 0.2);
+  }
+}
