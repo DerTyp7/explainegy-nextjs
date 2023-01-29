@@ -19,3 +19,22 @@ export interface UpdateArticle {
   contentTable?: Prisma.JsonArray
   imageId?: number;
 }
+
+export interface CreateCategory {
+  title: string;
+  svg: {
+
+    path: string;
+    viewbox: string;
+  }
+  color: string;
+}
+export interface UpdateCategory {
+  id: string;
+  title?: string;
+  svg?: {
+    path?: string;
+    viewbox?: string;
+  }
+  color?: string;
+}

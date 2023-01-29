@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
-import prisma from "../../../lib/prisma";
+
 import { Category } from "@prisma/client";
-import { ResponseError } from "../../../types/responseErrors";
+import prisma from "../../../../lib/prisma";
+import { ResponseError } from "../../../../types/responseErrors";
+
 
 export default async function handler(req: Request, res: Response) {
   res.setHeader("Content-Type", "application/json");

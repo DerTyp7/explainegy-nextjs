@@ -35,7 +35,7 @@ async function GetRecentArticles(categoryName: string): Promise<any> {
 }
 
 async function GetCategory(categoryName: string): Promise<any> {
-  const result: Response = await fetch(urlJoin(apiUrl, `categories/${categoryName}`), {
+  const result: Response = await fetch(urlJoin(apiUrl, `categories/name/${categoryName}`), {
     cache: "force-cache",
     next: { revalidate: 3600 },
   });

@@ -12,22 +12,22 @@ model Article {
   name         String   @unique
   title        String   @unique
   introduction String   @default("")
-  imageId      Int?
+  imageId      String?
   image        Image?   @relation(fields: [imageId], references: [id])
   markdown     String
   contentTable Json?
-  categoryId   Int
+  categoryId   String
   category     Category @relation(fields: [categoryId], references: [id])
   dateCreated  DateTime @default(now())
   dateUpdated  DateTime @default(now())
 }
 
 model Category {
-  id          Int       @id @default(autoincrement())
+  id          String    @id @default(uuid())
   name        String    @unique
   title       String    @unique
-  color       String    @unique
-  svgId       Int
+  color       String
+  svgId       String
   svg         Svg       @relation(fields: [svgId], references: [id])
   Article     Article[]
   dateCreated DateTime  @default(now())
@@ -35,17 +35,18 @@ model Category {
 }
 
 model Image {
-  id          Int       @id @default(autoincrement())
+  id          String    @id @default(uuid())
   name        String    @unique
   alt         String    @default("")
   url         String    @default("")
+  width       Int
+  height      Int
   dateCreated DateTime  @default(now())
   Article     Article[]
 }
 
 model Svg {
-  id       Int        @id @default(autoincrement())
-  name     String     @unique
+  id       String     @id @default(uuid())
   path     String     @default("")
   viewbox  String     @default("0 0 512 512")
   Category Category[]
