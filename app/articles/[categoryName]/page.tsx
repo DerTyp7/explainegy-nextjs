@@ -1,6 +1,6 @@
 import styles from "../../../styles/modules/Category.module.scss";
 import Link from "next/link";
-import { apiUrl } from "../../global";
+import { apiUrl } from "../../../global";
 import { Article, Category } from "@prisma/client";
 import urlJoin from "url-join";
 

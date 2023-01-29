@@ -11,7 +11,7 @@ import remarkStringify from "remark-stringify";
 import { useState, useEffect } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import React from "react";
-import Head from "./head";
+import Head from "../app/head";
 import { formatTextToUrlName } from "../utils";
 
 function flatten(text, child) {

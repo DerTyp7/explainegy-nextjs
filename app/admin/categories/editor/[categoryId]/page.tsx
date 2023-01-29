@@ -10,7 +10,7 @@ import { CreateCategory, UpdateCategory } from "../../../../../types/api";
 import urlJoin from "url-join";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { apiUrl } from "../../../../global";
+import { apiUrl } from "../../../../../global";
 
 type CategoryWithSvg = Prisma.CategoryGetPayload<{ include: { svg: true } }>;
 

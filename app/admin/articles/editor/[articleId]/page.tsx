@@ -13,8 +13,8 @@ import { IContentTableEntry } from "../../../../../types/contentTable";
 import { CreateArticle, UpdateArticle } from "../../../../../types/api";
 import { formatTextToUrlName } from "../../../../../utils";
 import { isValidText } from "../../../../../validators";
-import { apiUrl } from "../../../../global";
-import Markdown from "../../../../Markdown";
+import { apiUrl } from "../../../../../global";
+import Markdown from "../../../../../components/Markdown";
 
 type ArticleWithCategory = Prisma.ArticleGetPayload<{ include: { category: true } }>;
 

@@ -2,7 +2,7 @@ import styles from "../../styles/modules/CategoryList.module.scss";
 import Link from "next/link";
 import { Category, Svg, Prisma } from "@prisma/client";
 import urlJoin from "url-join";
-import { apiUrl } from "../global";
+import { apiUrl } from "../../global";
 
 type CategoryWithSvg = Prisma.CategoryGetPayload<{ include: { svg: true } }>;
 

@@ -4,9 +4,9 @@ import Sidebar from "./Sidebar";
 import styles from "../../../../styles/modules/Article.module.scss";
 import Image from "next/image";
 import urlJoin from "url-join";
-import { apiUrl } from "../../../global";
+import { apiUrl } from "../../../../global";
 import { Prisma } from "@prisma/client";
-import Markdown from "../../../Markdown";
+import Markdown from "../../../../components/Markdown";
 import { IContentTableEntry } from "../../../../types/contentTable";
 
 type ArticleWithIncludes = Prisma.ArticleGetPayload<{

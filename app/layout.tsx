@@ -1,12 +1,12 @@
 import "../styles/globals.scss";
 import "../styles/variables_colors.scss";
 import "../styles/variables.scss";
-import Nav from "./Nav";
-import Footer from "./Footer";
 import { Category } from "@prisma/client";
 import urlJoin from "url-join";
-import { apiUrl } from "./global";
+import { apiUrl } from "../global";
 import Link from "next/link";
+import Footer from "../components/Footer";
+import Nav from "../components/Nav";
 
 async function getCategories(): Promise<Category[]> {
   const result: Response = await fetch(urlJoin(apiUrl, `categories`), {
