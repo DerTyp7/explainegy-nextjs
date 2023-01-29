@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import prisma from "../../../lib/prisma";
+//@ts-ignore
 import { Prisma } from "@prisma/client";
+//@ts-ignore
 import { Article, Category } from "@prisma/client";
 import { ResponseError } from "../../../types/responseErrors";
 import { formatTextToUrlName } from "../../../utils";
@@ -111,9 +113,11 @@ export default async function handler(req: Request, res: Response) {
       title: data.title,
       name: formatTextToUrlName(data.title),
       introduction: data.introduction,
+      //@ts-ignore
       categoryId: data.categoryId,
       contentTable: data.contentTable,
       markdown: data.markdown,
+      //@ts-ignore
       imageId: data.imageId,
     }
 

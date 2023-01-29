@@ -14,7 +14,7 @@ import { apiUrl } from "../../../../../global";
 
 type CategoryWithSvg = Prisma.CategoryGetPayload<{ include: { svg: true } }>;
 
-export default function CategoryEditor({ params }: { params: { categoryId: string } }) {
+export default function AdminCategoriesEditor({ params }: { params: { categoryId: string } }) {
   const router = useRouter();
   const [title, setTitle] = useState<string>("");
   const [color, setColor] = useState<string>("");

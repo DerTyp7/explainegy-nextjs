@@ -1,31 +1,15 @@
-import { marked } from "marked";
-import ContentTable from "./ContentTable";
-import Sidebar from "./Sidebar";
+import ContentTable from "../../../../components/ContentTable";
+import Sidebar from "../../../../components/Sidebar";
 import styles from "../../../../styles/modules/Article.module.scss";
 import Image from "next/image";
-import urlJoin from "url-join";
-import { apiUrl } from "../../../../global";
-import { Prisma } from "@prisma/client";
 import Markdown from "../../../../components/Markdown";
-import { IContentTableEntry } from "../../../../types/contentTable";
-
-type ArticleWithIncludes = Prisma.ArticleGetPayload<{
-  include: { category: true; image: true };
-}>;
-
-export async function GetArticle(articleName: string): Promise<any> {
-  const result: Response = await fetch(urlJoin(apiUrl, `articles/name/${articleName ?? ""}`), {
-    cache: "force-cache",
-    next: { revalidate: 60 * 10 },
-  });
-
-  return result.json();
-}
+import { ArticleWithIncludes, FetchManager } from "../../../../manager/fetchManager";
+import { formatTextToUrlName } from "../../../../utils";
 
 //* MAIN
 export default async function ArticlePage({ params }: { params: { articleName: string; categoryName: string } }) {
-  const articleName: string = params.articleName.toLowerCase().replaceAll("%20", " ");
-  const article: ArticleWithIncludes = await GetArticle(articleName);
+  const articleName: string = formatTextToUrlName(params.articleName);
+  const article: ArticleWithIncludes = await FetchManager.Article.getByName(articleName);
 
   const dateUpdated: Date = new Date(article.dateUpdated);
   const dateCreated: Date = new Date(article.dateCreated);
@@ -60,14 +44,6 @@ export default async function ArticlePage({ params }: { params: { articleName: s
           <p>{article?.introduction}</p>
         </div>
         <Markdown value={markdown} />
-
-        {/* <div
-          className="markdown"
-          dangerouslySetInnerHTML={{
-            __html: ParseMarkdown(markdown),
-          }}
-        ></div>
-        <LoadMarkdown /> */}
       </div>
       <Sidebar />
     </div>
@@ -75,12 +51,8 @@ export default async function ArticlePage({ params }: { params: { articleName: s
 }
 
 export async function generateStaticParams() {
-  const articles: ArticleWithIncludes[] = await (
-    await fetch(urlJoin(apiUrl, `articles/`), {
-      cache: "no-cache",
-      next: { revalidate: 60 * 10 },
-    })
-  ).json();
+  // Fetchmanager does not work here
+  const articles: ArticleWithIncludes[] = await FetchManager.Article.list(false);
 
   return await Promise.all(
     articles.map(async (article) => ({

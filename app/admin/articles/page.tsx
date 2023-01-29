@@ -2,7 +2,7 @@
 
 import React from "react";
 
-function AdminArticlesPage() {
+export default function AdminArticlesPage() {
   return (
     <div>
       <h1>Page to manage articles</h1>
@@ -11,5 +11,3 @@ function AdminArticlesPage() {
     </div>
   );
 }
-
-export default AdminArticlesPage;

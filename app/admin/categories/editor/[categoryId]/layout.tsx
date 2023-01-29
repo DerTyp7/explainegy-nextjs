@@ -1,3 +1,3 @@
-export default async function Layout({ children }) {
+export default async function AdminCategoriesEditorLayout({ children }) {
   return <div>{children}</div>;
 }

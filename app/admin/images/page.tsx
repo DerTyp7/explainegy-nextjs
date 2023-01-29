@@ -19,6 +19,6 @@ async function getImages(): Promise<GalleryImage[]> {
   }));
 }
 
-export default async function page() {
+export default async function AdminImagesPage() {
   return <Gallery images={await getImages()} />;
 }

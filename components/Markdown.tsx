@@ -8,10 +8,9 @@ import styles from "../styles/modules/markdown.module.scss";
 import remarkGfm from "remark-gfm";
 import remarkGemoji from "remark-gemoji";
 import remarkStringify from "remark-stringify";
-import { useState, useEffect } from "react";
-import { useLocalStorage } from "usehooks-ts";
+
 import React from "react";
-import Head from "../app/head";
+
 import { formatTextToUrlName } from "../utils";
 
 function flatten(text, child) {
@@ -31,6 +30,7 @@ export default function Markdown({ value }: { value: any }) {
         className={styles.markdown}
         //@ts-ignore
         remarkPlugins={[remarkGfm, remarkGemoji, remarkStringify]}
+        //@ts-ignore
         components={{
           h1: HeadingRenderer,
           h2: HeadingRenderer,

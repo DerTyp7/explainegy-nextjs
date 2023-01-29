@@ -1,7 +1,7 @@
-export default async function Head() {
-	return (
-		<>
-			<meta name="viewport" content="width=device-width, initial-scale=1" />
-		</>
-	);
+export default async function RootHead() {
+  return (
+    <>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+    </>
+  );
 }

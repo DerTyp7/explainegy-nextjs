@@ -1,21 +1,10 @@
 import "../styles/globals.scss";
 import "../styles/variables_colors.scss";
 import "../styles/variables.scss";
-import { Category } from "@prisma/client";
-import urlJoin from "url-join";
-import { apiUrl } from "../global";
 import Link from "next/link";
 import Footer from "../components/Footer";
 import Nav from "../components/Nav";
-
-async function getCategories(): Promise<Category[]> {
-  const result: Response = await fetch(urlJoin(apiUrl, `categories`), {
-    cache: "no-cache",
-    next: { revalidate: 3600 },
-  });
-
-  return await result.json();
-}
+import { FetchManager } from "../manager/fetchManager";
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -27,7 +16,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <Link href={"/admin"}> Admin</Link>
         </div>
         <header>
-          <Nav categories={await getCategories()} />
+          <Nav categories={await FetchManager.Category.list()} />
         </header>
         <main>{children}</main>
         <Footer />

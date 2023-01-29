@@ -18,7 +18,7 @@ import Markdown from "../../../../../components/Markdown";
 
 type ArticleWithCategory = Prisma.ArticleGetPayload<{ include: { category: true } }>;
 
-export default function ArticleEditor({ params }: { params: { articleId: string } }) {
+export default function AdminArticlesEditorPage({ params }: { params: { articleId: string } }) {
   const router = useRouter();
   const [title, setTitle] = useState<string>("");
   const [selectCategoriesOptions, setSelectCategoriesOptions] = useState<any>([]);

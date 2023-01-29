@@ -1,22 +1,10 @@
 import styles from "../../styles/modules/CategoryList.module.scss";
 import Link from "next/link";
-import { Category, Svg, Prisma } from "@prisma/client";
-import urlJoin from "url-join";
-import { apiUrl } from "../../global";
 
-type CategoryWithSvg = Prisma.CategoryGetPayload<{ include: { svg: true } }>;
-
-export async function GetCategories(): Promise<any> {
-  const result: Response = await fetch(urlJoin(apiUrl, `categories`), {
-    cache: "force-cache",
-    next: { revalidate: 3600 },
-  });
-
-  return result.json();
-}
+import { FetchManager } from "../../manager/fetchManager";
 
 export default async function CategoryList() {
-  const categories = await GetCategories();
+  const categories = await FetchManager.Category.list();
   return (
     <div className={styles.categoryList}>
       <h1>Overview</h1>

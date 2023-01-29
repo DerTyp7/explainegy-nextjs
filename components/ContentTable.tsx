@@ -1,7 +1,5 @@
 import React from "react";
-import styles from "../../../../styles/modules/ArticleContentTable.module.scss";
-import { Article } from "@prisma/client";
-import { IContentTableEntry } from "../../../../types/contentTable";
+import styles from "../styles/modules/ArticleContentTable.module.scss";
 
 export default function ContentTable({ contentTableData }: { contentTableData: any }) {
   return (
