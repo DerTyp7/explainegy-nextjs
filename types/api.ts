@@ -11,7 +11,7 @@ export interface CreateArticle {
 }
 
 export interface UpdateArticle {
-  id: string;
+
   title?: string;
   markdown?: string;
   introduction?: string;
@@ -30,7 +30,7 @@ export interface CreateCategory {
   color: string;
 }
 export interface UpdateCategory {
-  id: string;
+
   title?: string;
   svg?: {
     path?: string;

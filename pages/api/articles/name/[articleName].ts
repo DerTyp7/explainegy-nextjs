@@ -1,18 +1,17 @@
-import { Request, Response } from "express";
 import prisma from "../../../../lib/prisma";
 import { Prisma } from '@prisma/client';
 import { ResponseError } from "../../../../types/responseErrors";
 import { formatTextToUrlName } from "../../../../utils";
+import type { NextApiRequest, NextApiResponse } from 'next'
 
 type ArticleWithIncludes = Prisma.ArticleGetPayload<{ include: { contentTableEntries: true, category: true, image: true } }>
 
 
 
-export default async function handler(req: Request, res: Response) {
-  res.setHeader("Content-Type", "application/json");
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+
 
   const articleName: string = formatTextToUrlName(req.query.articleName.toString())
-
   await prisma.article
     .findUnique({ where: { name: articleName }, include: { category: true, image: true } })
     .then((result: ArticleWithIncludes) => {

@@ -1,8 +1,5 @@
-import { Request, Response } from "express";
 import prisma from "../../../lib/prisma";
-//@ts-ignore
 import { Prisma } from "@prisma/client";
-//@ts-ignore
 import { Article, Category } from "@prisma/client";
 import { ResponseError } from "../../../types/responseErrors";
 import { formatTextToUrlName } from "../../../utils";
@@ -10,14 +7,13 @@ import { isValidText } from "../../../validators";
 import { title } from 'process';
 import { UpdateArticle } from "../../../types/api";
 
-export default async function handler(req: Request, res: Response) {
-  res.setHeader("Content-Type", "application/json");
+import type { NextApiRequest, NextApiResponse } from 'next'
 
-  if (req.method == "GET") {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method == "GET") { //* GET
     const categoryName: string = req.query.categoryName?.toString() ?? "";
     const limit: number = req.query.limit ? Number(req.query.limit) : undefined;
     const orderBy: string = req.query.orderBy?.toString() ?? "";
-
     const category = await prisma.category.findUnique({ where: { name: categoryName } });
 
     let orderByObj: Prisma.Enumerable<Prisma.ArticleOrderByWithRelationInput>;
@@ -27,9 +23,8 @@ export default async function handler(req: Request, res: Response) {
         dateCreated: "desc"
       }
     } else if (orderBy === "popularity") {
-
+      // TODO filter with views
     }
-
 
     await prisma.article
       .findMany({
@@ -46,7 +41,7 @@ export default async function handler(req: Request, res: Response) {
             code: "404",
             message: "No articles found!",
           };
-          res.status(404).send(JSON.stringify(error));
+          res.status(404).json(error);
         }
       })
       .catch((err) => {
@@ -54,23 +49,25 @@ export default async function handler(req: Request, res: Response) {
           code: "500",
           message: err,
         };
-        res.status(500).send(JSON.stringify(error));
+        res.status(500).json(JSON.stringify(error));
       });
-  } else if (req.method == "POST") {
-    const data: any = req.body;
 
+
+  } else if (req.method == "POST") { //* POST
+    const data: any = req.body;
+    console.log(data)
     if (!isValidText(data.title)) {
-      res.send(JSON.stringify({ target: "title", error: "Not a valid title" }));
+      res.json({ target: "title", error: "Not a valid title" });
       return;
     }
 
     if (!isValidText(data.introduction)) {
-      res.send(JSON.stringify({ target: "introduction", error: "Not a valid introduction" }));
+      res.json({ target: "introduction", error: "Not a valid introduction" });
       return;
     }
 
     if (!data.categoryId) {
-      res.send(JSON.stringify({ target: "category", error: "Category is required" }));
+      res.json({ target: "category", error: "Category is required" });
       return;
     }
 
@@ -79,62 +76,19 @@ export default async function handler(req: Request, res: Response) {
       .create({ data: data, include: { category: true } })
       .then(
         (data) => {
-          res.send(JSON.stringify({ success: true, data: data }));
+          console.log("success")
+          res.json({ success: true, data: data });
         },
         (errorReason) => {
+          console.log(errorReason)
           if (errorReason.code === "P2002") {
-            res.send(JSON.stringify({ target: errorReason.meta.target[0], error: "Already exists" }));
+            res.json({ target: errorReason.meta.target[0], error: "Already exists" });
           }
         }
       )
       .catch((err) => {
         console.error(err);
-        res.sendStatus(500).end();
-      });
-  } else if (req.method == "PUT") {
-    const data: UpdateArticle = req.body;
-
-    if (!isValidText(data.title)) {
-      res.send(JSON.stringify({ target: "title", error: "Not a valid title" }));
-      return;
-    }
-
-    if (!isValidText(data.introduction)) {
-      res.send(JSON.stringify({ target: "introduction", error: "Not a valid introduction" }));
-      return;
-    }
-
-    if (!data.categoryId) {
-      res.send(JSON.stringify({ target: "category", error: "Category is required" }));
-      return;
-    }
-
-    const newArticle: Prisma.ArticleUncheckedUpdateInput = {
-      title: data.title,
-      name: formatTextToUrlName(data.title),
-      introduction: data.introduction,
-      //@ts-ignore
-      categoryId: data.categoryId,
-      contentTable: data.contentTable,
-      markdown: data.markdown,
-      //@ts-ignore
-      imageId: data.imageId,
-    }
-
-    await prisma.article.update({ data: newArticle, where: { id: data.id }, include: { category: true } })
-      .then(
-        (data) => {
-          res.send(JSON.stringify({ success: true, data: data }));
-        },
-        (errorReason) => {
-          if (errorReason.code === "P2002") {
-            res.send(JSON.stringify({ target: errorReason.meta.target[0], error: "Already exists" }));
-          }
-        }
-      )
-      .catch((err) => {
-        console.error(err);
-        res.sendStatus(500).end();
+        res.status(500).end();
       });
   }
 
