@@ -74,7 +74,6 @@ export default function AdminArticlesEditorPage({ params }: { params: { articleI
   async function updateArticle() {
     console.log("Update article");
     const payload: UpdateArticle = {
-      id: params.articleId,
       title: titleRef.current.value,
       introduction: introductionRef.current.value,
       markdown: markdown,
@@ -83,7 +82,7 @@ export default function AdminArticlesEditorPage({ params }: { params: { articleI
     };
     console.log(payload);
 
-    await fetch("/api/articles/", {
+    await fetch(`/api/articles/${params.articleId.toString()}`, {
       method: "PUT",
       headers: {
         Accept: "application/json",

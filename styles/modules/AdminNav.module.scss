@@ -1,0 +1,12 @@
+@import "../variables.scss";
+
+.adminNav {
+  border-top: 2px solid var(--color-danger);
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 50px;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}

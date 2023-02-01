@@ -35,6 +35,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         res.status(500).json(error);
       });
   } else if (req.method == "PUT") {//* PUT
+    console.log("PUT")
     const data: UpdateArticle = req.body;
 
     if (!isValidText(data.title)) {
@@ -53,22 +54,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     const newArticle: Prisma.ArticleUncheckedUpdateInput = {
-      title: data.title,
-      name: formatTextToUrlName(data.title),
-      introduction: data.introduction,
+      title: data.title ?? undefined,
+      name: formatTextToUrlName(data.title) ?? undefined,
+      introduction: data.introduction ?? undefined,
 
-      categoryId: data.categoryId.toString(),
-      contentTable: data.contentTable,
-      markdown: data.markdown,
-      imageId: data.imageId.toString(),
+      categoryId: data.categoryId?.toString() ?? undefined,
+      contentTable: data.contentTable ?? undefined,
+      markdown: data.markdown ?? undefined,
+      imageId: data.imageId?.toString() ?? undefined,
     }
-
+    console.log(newArticle)
     await prisma.article.update({ data: newArticle, where: { id: articleId }, include: { category: true } })
       .then(
         (data) => {
           res.json({ success: true, data: data });
         },
         (errorReason) => {
+          console.log(errorReason)
           if (errorReason.code === "P2002") {
             res.json({ target: errorReason.meta.target[0], error: "Already exists" });
           }

@@ -72,6 +72,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     data.name = formatTextToUrlName(data.title);
+    data.categoryId = data.categoryId.toString();
+
     prisma.article
       .create({ data: data, include: { category: true } })
       .then(

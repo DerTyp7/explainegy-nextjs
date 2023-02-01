@@ -44,7 +44,6 @@ export default function AdminCategoriesEditor({ params }: { params: { categoryId
   async function updateCategory() {
     console.log("Update category");
     const payload: UpdateCategory = {
-      id: params.categoryId,
       title: titleRef.current.value,
       color: colorRef.current.value,
       svg: {
@@ -54,7 +53,7 @@ export default function AdminCategoriesEditor({ params }: { params: { categoryId
     };
     console.log(payload);
 
-    await fetch("/api/categories/", {
+    await fetch(`/api/categories/${params.categoryId.toString()}`, {
       method: "PUT",
       headers: {
         Accept: "application/json",

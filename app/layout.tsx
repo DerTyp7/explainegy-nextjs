@@ -5,6 +5,8 @@ import Link from "next/link";
 import Footer from "../components/Footer";
 import Nav from "../components/Nav";
 import { FetchManager } from "../manager/fetchManager";
+import AdminNav from "../components/AdminNav";
+import AdminControl from "../components/AdminControl";
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -12,11 +14,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <head></head>
 
       <body className="body">
-        <div>
-          <Link href={"/admin"}> Admin</Link>
-        </div>
         <header>
           <Nav categories={await FetchManager.Category.list()} />
+          <AdminNav />
+          <AdminControl />
         </header>
         <main>{children}</main>
         <Footer />

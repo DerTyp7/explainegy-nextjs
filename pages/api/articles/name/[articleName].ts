@@ -22,7 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           code: "404",
           message: "No article with this name found!",
         };
-        res.status(404).send(JSON.stringify(error));
+        res.status(404).json(error);
       }
     })
     .catch((err) => {
@@ -31,6 +31,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         code: "500",
         message: err,
       };
-      res.status(500).send(JSON.stringify(error));
+      res.status(500).json(error);
     });
 }

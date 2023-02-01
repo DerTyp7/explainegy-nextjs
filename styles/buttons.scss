@@ -17,8 +17,8 @@ button {
     border-color: var(--color-accent);
   }
 
-  &.error {
-    border-color: var(--color-error);
+  &.danger {
+    border-color: var(--color-danger);
   }
   &.success {
     border-color: var(--color-success);
