@@ -4,7 +4,7 @@ import { ResponseError } from "../../../../types/responseErrors";
 import { formatTextToUrlName } from "../../../../utils";
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-type ArticleWithIncludes = Prisma.ArticleGetPayload<{ include: { contentTableEntries: true, category: true, image: true } }>
+type ArticleWithIncludes = Prisma.ArticleGetPayload<{ include: { category: true, image: true } }>
 
 
 
@@ -15,8 +15,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   await prisma.article
     .findUnique({ where: { name: articleName }, include: { category: true, image: true } })
     .then((result: ArticleWithIncludes) => {
+
       if (result !== null) {
-        res.end(JSON.stringify(result));
+        res.json(result);
       } else {
         const error: ResponseError = {
           code: "404",
