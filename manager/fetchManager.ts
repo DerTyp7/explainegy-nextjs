@@ -18,6 +18,7 @@ export class FetchManager {
 
   static Article = class {
     static async list(noCache: boolean = false): Promise<ArticleWithIncludes[]> {
+      console.log(urlJoin(apiUrl, `articles`))
       const response = await fetch(urlJoin(apiUrl, `articles`), {
         cache: GLOBAL_NO_CACHE || noCache ? "no-cache" : "force-cache",
         next: { revalidate: 60 * 10 },
@@ -26,6 +27,7 @@ export class FetchManager {
     }
 
     static async get(id: string, noCache: boolean = false): Promise<ArticleWithIncludes> {
+      urlJoin(apiUrl, `articles/${id}`)
       const response = await fetch(urlJoin(apiUrl, `articles/${id}`), {
         cache: GLOBAL_NO_CACHE || noCache ? "no-cache" : "force-cache",
         next: { revalidate: 60 * 10 },
@@ -37,6 +39,15 @@ export class FetchManager {
     static async getByName(name: string, noCache: boolean = false): Promise<ArticleWithIncludes> {
 
       const response = await fetch(urlJoin(apiUrl, `articles/name/${name}`), {
+        cache: GLOBAL_NO_CACHE || noCache ? "no-cache" : "force-cache",
+        next: { revalidate: 60 * 10 },
+      })
+      return await response.json()
+    }
+
+    static async getByCategory(name: string, noCache: boolean = false): Promise<ArticleWithIncludes[]> {
+
+      const response = await fetch(urlJoin(apiUrl, `articles?categoryName=${name}`), {
         cache: GLOBAL_NO_CACHE || noCache ? "no-cache" : "force-cache",
         next: { revalidate: 60 * 10 },
       })

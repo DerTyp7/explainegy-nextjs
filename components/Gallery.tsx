@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState } from "react";
 import { Gallery as ReactGridGallery, Image as ImageType, ThumbnailImageProps } from "react-grid-gallery";
 import Image from "next/image";
