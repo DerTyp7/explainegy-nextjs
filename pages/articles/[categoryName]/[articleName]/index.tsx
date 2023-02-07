@@ -34,7 +34,7 @@ export default function ArticlePage({ article }: { article: ArticleWithIncludes 
             <div className={styles.tags}>
               <a href="#">Docker</a> <a href="#">Setup</a> <a href="#">Ubuntu</a>
             </div>
-            <Image src={""} height={350} width={750} alt={""} quality={100} placeholder="blur" blurDataURL="/images/blur.png" loading="lazy" />
+            <Image src={article?.imageUrl ?? ""} height={350} width={750} alt={""} quality={100} placeholder="blur" blurDataURL="/images/blur.png" loading="lazy" />
             <p>{article?.introduction}</p>
           </div>
           <Markdown value={article?.markdown ?? ""} />
