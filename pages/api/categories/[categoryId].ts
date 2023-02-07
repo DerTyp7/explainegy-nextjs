@@ -1,4 +1,4 @@
-import prisma from "../../../lib/prisma";
+import prisma, { CategoryWithIncludes } from "../../../lib/prisma";
 import { Category } from "@prisma/client";
 import { ResponseError } from "../../../types/responseErrors";
 import { Prisma } from "@prisma/client";
@@ -9,10 +9,10 @@ import { isValidText } from "../../../validators";
 import { UpdateCategory } from '../../../types/api';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-
+  const categoryId: string = req.query.categoryId?.toString() ?? "";
 
   if (req.method == "PUT") {
-    const categoryId: string = req.query.categoryId?.toString() ?? "";
+
     const categoryData: UpdateCategory = req.body;
 
     if (categoryData.title && !isValidText(categoryData.title)) {
@@ -66,5 +66,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         console.error(err);
         res.status(500).end();
       });
+  } else if (req.method == "DELETE") {
+    console.log("DELETE category")
+    prisma.category.delete({ where: { id: categoryId }, include: { articles: true, svg: true } }).then((result: CategoryWithIncludes | null) => {
+      if (result) {
+        res.status(200).json(result)
+      } else {
+        res.status(500).json({ error: true, message: "No category found" })
+      }
+    }, (err) => {
+      console.log(err)
+      res.status(500).end(err)
+    })
   }
 }

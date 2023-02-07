@@ -44,7 +44,7 @@ export default function AdminArticlesEditorPage({ article, categories }: { artic
   function changeContentTableEntryTitle(index: number, newTitle: string) {
     setContentTable((prevArray: any) => {
       let newArray = [...prevArray];
-      newArray[index].anchor = newTitle;
+      newArray[index].title = newTitle;
       return newArray;
     });
   }

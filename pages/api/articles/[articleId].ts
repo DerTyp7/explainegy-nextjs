@@ -1,19 +1,19 @@
 import { Prisma, Article } from "@prisma/client";
 import { ResponseError } from "../../../types/responseErrors";
 import { formatTextToUrlName } from "../../../utils";
-import prisma from "../../../lib/prisma";
+import prisma, { ArticleWithIncludes } from "../../../lib/prisma";
 
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { UpdateArticle } from "../../../types/api";
 import { isValidText } from "../../../validators";
 
-type ArticleWithIncludes = Prisma.ArticleGetPayload<{ include: { contentTableEntries: true, category: true, image: true } }>
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const articleId: string = formatTextToUrlName(req.query?.articleId?.toString() ?? "")
 
   if (req.method == "PUT") {//* PUT
     console.log("PUT")
-    const articleId: string = formatTextToUrlName(req.query?.articleId?.toString() ?? "")
+
 
     console.log(`API articleId: ${articleId}`)
     const articleData: UpdateArticle = req.body;
@@ -55,6 +55,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         console.error(err);
         res.status(500).end();
       });
+  } else if (req.method == "DELETE") {
+    console.log("DELETE article")
+    prisma.article.delete({ where: { id: articleId }, include: { category: true } }).then((result: ArticleWithIncludes | null) => {
+      if (result) {
+        res.status(200).json(result)
+      } else {
+        res.status(500).json({ error: true, message: "No article found" })
+      }
+    }, (err) => {
+      console.log(err)
+      res.status(500).end(err)
+    })
   }
-
 }

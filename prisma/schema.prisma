@@ -16,7 +16,7 @@ model Article {
   markdown     String
   contentTable Json?
   categoryId   String
-  category     Category @relation(fields: [categoryId], references: [id])
+  category     Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   dateCreated  DateTime @default(now())
   dateUpdated  DateTime @default(now())
 }

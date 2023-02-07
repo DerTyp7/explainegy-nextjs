@@ -3,15 +3,18 @@ import Link from "next/link";
 import { formatTextToUrlName } from "@/utils";
 import { Article, Category } from "@prisma/client";
 import prisma, { CategoryWithIncludes } from "@/lib/prisma";
+import CategoryControl from "../../../components/CategoryControl";
 
-export default function CategoryPage({ category }: { category: CategoryWithIncludes | null }) {
+export default function CategoryPage({ category }: { category: CategoryWithIncludes }) {
   return (
-    <div className={styles.category}>
-      <h1>{category?.title}</h1>
-      <div className={styles.content}>
-        <div className={`${styles.showcase} ${styles.smallShowcase}`}>
-          <h2>Most popular articles</h2>
-          {/* {popularArticles?.map((a, i) => {
+    <>
+      <CategoryControl categoryId={category.id} />
+      <div className={styles.category}>
+        <h1>{category?.title}</h1>
+        <div className={styles.content}>
+          <div className={`${styles.showcase} ${styles.smallShowcase}`}>
+            <h2>Most popular articles</h2>
+            {/* {popularArticles?.map((a, i) => {
             {
               return (
                 <Link key={i} href={`/articles/${category.name}/${a.name}`}>
@@ -20,9 +23,9 @@ export default function CategoryPage({ category }: { category: CategoryWithInclu
               );
             }
           })} */}
-        </div>
+          </div>
 
-        {/* <div className={`${styles.showcase} ${styles.smallShowcase}`}>
+          {/* <div className={`${styles.showcase} ${styles.smallShowcase}`}>
 					<h2>Most recent articles</h2>
 					{recentArticles?.map((a, i) => {
 						{
@@ -35,22 +38,23 @@ export default function CategoryPage({ category }: { category: CategoryWithInclu
 					})}
 				</div> */}
 
-        <div className={styles.showcase}>
-          <h2>All articles</h2>
-          {category?.articles
-            ? Array.from(category?.articles).map((a: Article, i: number) => {
-                {
-                  return (
-                    <Link key={i} href={`/articles/${category.name}/${a.name}`}>
-                      {a.title}
-                    </Link>
-                  );
-                }
-              })
-            : ""}
+          <div className={styles.showcase}>
+            <h2>All articles</h2>
+            {category?.articles
+              ? Array.from(category?.articles).map((a: Article, i: number) => {
+                  {
+                    return (
+                      <Link key={i} href={`/articles/${category.name}/${a.name}`}>
+                        {a.title}
+                      </Link>
+                    );
+                  }
+                })
+              : ""}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 export async function getServerSideProps(context: any) {

@@ -5,7 +5,9 @@ import Image from "next/image";
 import Markdown from "@/components/Markdown";
 import { formatTextToUrlName } from "@/utils";
 import prisma, { ArticleWithIncludes, CategoryWithIncludes } from "@/lib/prisma";
-import articles from "../..";
+import ArticleControl from "../../../../components/ArticleControl";
+import { IContentTableEntry } from "@/types/contentTable";
+import { Prisma } from "@prisma/client";
 
 //* MAIN
 export default function ArticlePage({ article }: { article: ArticleWithIncludes }) {
@@ -14,27 +16,32 @@ export default function ArticlePage({ article }: { article: ArticleWithIncludes 
   const dateOptions: Intl.DateTimeFormatOptions = { month: "long", day: "numeric", year: "numeric" };
 
   return (
-    <div className={styles.article}>
-      <ContentTable contentTableData={article?.contentTable ? article?.contentTable : []} />
-      <div className={styles.tutorialContent}>
-        <div className={styles.header}>
-          <p className={`${styles.dates} text-muted`}>
-            {`Published on ${dateCreated.toLocaleDateString("en-US", dateOptions)}`}
-            <br />
-            {dateUpdated > dateCreated ? `Updated on ${dateUpdated.toLocaleDateString("en-US", dateOptions)}` : ""}
-          </p>
+    <>
+      <ArticleControl articleId={article.id} />
+      <div className={styles.article}>
+        <ContentTable
+          contentTableData={article?.contentTable ? Array.from(article.contentTable as Prisma.JsonArray).map((c: any) => ({ anchor: c.anchor, title: c.title })) : []}
+        />
+        <div className={styles.tutorialContent}>
+          <div className={styles.header}>
+            <p className={`${styles.dates} text-muted`}>
+              {`Published on ${dateCreated.toLocaleDateString("en-US", dateOptions)}`}
+              <br />
+              {dateUpdated > dateCreated ? `Updated on ${dateUpdated.toLocaleDateString("en-US", dateOptions)}` : ""}
+            </p>
 
-          <h1>{article?.title}</h1>
-          <div className={styles.tags}>
-            <a href="#">Docker</a> <a href="#">Setup</a> <a href="#">Ubuntu</a>
+            <h1>{article?.title}</h1>
+            <div className={styles.tags}>
+              <a href="#">Docker</a> <a href="#">Setup</a> <a href="#">Ubuntu</a>
+            </div>
+            <Image src={""} height={350} width={750} alt={""} quality={100} placeholder="blur" blurDataURL="/images/blur.png" loading="lazy" />
+            <p>{article?.introduction}</p>
           </div>
-          <Image src={""} height={350} width={750} alt={""} quality={100} placeholder="blur" blurDataURL="/images/blur.png" loading="lazy" />
-          <p>{article?.introduction}</p>
+          <Markdown value={article?.markdown ?? ""} />
         </div>
-        <Markdown value={article?.markdown ?? ""} />
+        <Sidebar />
       </div>
-      <Sidebar />
-    </div>
+    </>
   );
 }
 
