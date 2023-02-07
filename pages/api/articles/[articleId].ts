@@ -10,64 +10,33 @@ import { isValidText } from "../../../validators";
 type ArticleWithIncludes = Prisma.ArticleGetPayload<{ include: { contentTableEntries: true, category: true, image: true } }>
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const articleId: string = formatTextToUrlName(req.query.articleId.toString())
 
-  console.log(`API articleId: ${articleId}`)
-  if (req.method == "GET") { //* GET
-    console.log("get")
-    await prisma.article
-      .findUnique({ where: { id: articleId }, include: { category: true, image: true } })
-      .then((result: ArticleWithIncludes) => {
-        if (result !== null) {
-          console.log("result", result)
-          res.json(result);
-        } else {
-          console.log("no article found")
-          const error: ResponseError = {
-            code: "404",
-            message: "No article with this name found!",
-          };
-          res.status(404).json(error);
-        }
-      }, (err) => {
-        console.log("reason", err)
-      })
-      .catch((err) => {
-        console.log("catch", err)
-        const error: ResponseError = {
-          code: "500",
-          message: err,
-        };
-        res.status(500).json(error);
-      });
-  } else if (req.method == "PUT") {//* PUT
+  if (req.method == "PUT") {//* PUT
     console.log("PUT")
-    const data: UpdateArticle = req.body;
+    const articleId: string = formatTextToUrlName(req.query?.articleId?.toString() ?? "")
 
-    if (!isValidText(data.title)) {
+    console.log(`API articleId: ${articleId}`)
+    const articleData: UpdateArticle = req.body;
+
+    if (articleData.title && !isValidText(articleData.title)) {
       res.json({ target: "title", error: "Not a valid title" });
       return;
     }
 
-    if (!isValidText(data.introduction)) {
+    if (articleData.introduction && !isValidText(articleData.introduction)) {
       res.json({ target: "introduction", error: "Not a valid introduction" });
       return;
     }
 
-    if (!data.categoryId) {
-      res.json({ target: "category", error: "Category is required" });
-      return;
-    }
-
     const newArticle: Prisma.ArticleUncheckedUpdateInput = {
-      title: data.title ?? undefined,
-      name: formatTextToUrlName(data.title) ?? undefined,
-      introduction: data.introduction ?? undefined,
+      title: articleData.title ?? undefined,
+      name: articleData.title ? formatTextToUrlName(articleData.title) : undefined,
+      introduction: articleData.introduction ?? undefined,
 
-      categoryId: data.categoryId?.toString() ?? undefined,
-      contentTable: data.contentTable ?? undefined,
-      markdown: data.markdown ?? undefined,
-      imageId: data.imageId?.toString() ?? undefined,
+      categoryId: articleData.categoryId ?? undefined,
+      contentTable: articleData.contentTable ?? undefined,
+      markdown: articleData.markdown ?? undefined,
+      imageUrl: articleData.imageUrl ?? undefined,
     }
     console.log(newArticle)
     await prisma.article.update({ data: newArticle, where: { id: articleId }, include: { category: true } })

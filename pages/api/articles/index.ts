@@ -1,92 +1,48 @@
-import prisma from "../../../lib/prisma";
-import { Prisma } from "@prisma/client";
-import { Article, Category } from "@prisma/client";
-import { ResponseError } from "../../../types/responseErrors";
+import { CreateArticle } from "@/types/api";
+import prisma, { ArticleWithIncludes } from "../../../lib/prisma";
 import { formatTextToUrlName } from "../../../utils";
 import { isValidText } from "../../../validators";
-import { title } from 'process';
-import { UpdateArticle } from "../../../types/api";
+
 
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { Prisma } from '@prisma/client';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  console.log("articles index.ts")
-  if (req.method == "GET") { //* GET
-    console.log("get")
-    const categoryName: string = req.query.categoryName?.toString() ?? "";
-    const limit: number = req.query.limit ? Number(req.query.limit) : undefined;
-    const orderBy: string = req.query.orderBy?.toString() ?? "";
-    const category = await prisma.category.findUnique({ where: { name: categoryName } });
-
-    console.log(categoryName, limit, orderBy, category)
-
-    let orderByObj: Prisma.Enumerable<Prisma.ArticleOrderByWithRelationInput>;
-
-    if (orderBy === "recent") {
-      orderByObj = {
-        dateCreated: "desc"
-      }
-    } else if (orderBy === "popularity") {
-      // TODO filter with views
-    }
-
-    await prisma.article
-      .findMany({
-        where: { category: category ?? undefined },
-        include: { category: true },
-        take: limit,
-        orderBy: orderByObj
-      })
-      .then((result: Article[]) => { //! ContentTableEntries not sorted
-        console.log("result", result)
-        if (result !== null) {
-          res.end(JSON.stringify(result));
-        } else {
-          const error: ResponseError = {
-            code: "404",
-            message: "No articles found!",
-          };
-          res.status(404).json(error);
-        }
-      }, (err) => {
-        console.log("reason", err)
-      })
-      .catch((err) => {
-        console.log("catch", err)
-        const error: ResponseError = {
-          code: "500",
-          message: err,
-        };
-        res.status(500).json(JSON.stringify(error));
-      });
+  if (req.method == "POST") { //* POST
+    console.log("API new article")
+    const articleData: CreateArticle = req.body
+    console.log(articleData)
 
 
-  } else if (req.method == "POST") { //* POST
-    const data: any = req.body;
-    console.log(data)
-    if (!isValidText(data.title)) {
-      res.json({ target: "title", error: "Not a valid title" });
+    if (!isValidText(articleData.title)) {
+      res.status(500).json({ target: "title", error: "Not a valid title" });
       return;
     }
 
-    if (!isValidText(data.introduction)) {
-      res.json({ target: "introduction", error: "Not a valid introduction" });
+    if (!isValidText(articleData.introduction)) {
+      res.status(500).json({ target: "introduction", error: "Not a valid introduction" });
       return;
     }
 
-    if (!data.categoryId) {
-      res.json({ target: "category", error: "Category is required" });
+    if (!articleData.categoryId) {
+      res.status(500).json({ target: "category", error: "Category is required" });
       return;
     }
 
-    data.name = formatTextToUrlName(data.title);
-    data.categoryId = data.categoryId.toString();
+    const newArticle: Prisma.ArticleUncheckedCreateInput = {
+      title: articleData.title,
+      name: formatTextToUrlName(articleData.title),
+      introduction: articleData.introduction,
+      categoryId: articleData.categoryId,
+      markdown: articleData.markdown ?? "",
+      contentTable: articleData.contentTable ?? {},
+      imageUrl: articleData.imageUrl ?? ""
+    }
 
     prisma.article
-      .create({ data: data, include: { category: true } })
+      .create({ data: newArticle, include: { category: true } })
       .then(
-        (data) => {
-          console.log("success")
+        (data: ArticleWithIncludes) => {
           res.json({ success: true, data: data });
         },
         (errorReason) => {

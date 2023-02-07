@@ -2,8 +2,8 @@
 import PropTypes from "prop-types";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import oneDark from "react-syntax-highlighter/dist/esm/styles/prism/one-dark";
-import oneLight from "react-syntax-highlighter/dist/esm/styles/prism/one-light";
+import oneDark from "react-syntax-highlighter/dist/cjs/styles/prism/one-dark";
+import oneLight from "react-syntax-highlighter/dist/cjs/styles/prism/one-light";
 import styles from "../styles/modules/markdown.module.scss";
 import remarkGfm from "remark-gfm";
 import remarkGemoji from "remark-gemoji";
@@ -13,11 +13,11 @@ import React from "react";
 
 import { formatTextToUrlName } from "../utils";
 
-function flatten(text, child) {
+function flatten(text: string, child: any): any {
   return typeof child === "string" ? text + child : React.Children.toArray(child.props.children).reduce(flatten, text);
 }
 
-function HeadingRenderer({ children, level }) {
+function HeadingRenderer({ children, level }: { children: any; level: any }) {
   children = React.Children.toArray(children);
   const text = children.reduce(flatten, "");
   return React.createElement("h" + level, { id: formatTextToUrlName(text) }, children);
@@ -55,7 +55,13 @@ export default function Markdown({ value }: { value: any }) {
                   </div>
                 </div>
 
-                <SyntaxHighlighter style={oneDark} language={match ? match[1] : ""} PreTag="div" {...props}>
+                <SyntaxHighlighter
+                  // @ts-ignore
+                  style={oneDark}
+                  language={match ? match[1] : ""}
+                  PreTag="div"
+                  {...props}
+                >
                   {String(children).replace(/\n$/, "")}
                 </SyntaxHighlighter>
               </>

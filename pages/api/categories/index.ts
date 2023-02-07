@@ -1,5 +1,5 @@
 
-import prisma from "../../../lib/prisma";
+import prisma, { CategoryWithIncludes } from "../../../lib/prisma";
 import { Prisma } from "@prisma/client";
 import { Category, Svg } from "@prisma/client";
 import { ResponseError } from "../../../types/responseErrors";
@@ -7,48 +7,52 @@ import { formatTextToUrlName } from "../../../utils";
 import { isValidText } from "../../../validators";
 
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { CreateCategory } from "@/types/api";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method == "GET") { //* GET
-    await prisma.category
-      .findMany({ include: { svg: true } })
-      .then((result: Category[]) => {
-        if (result !== null) {
-          res.json(result);
-        } else {
-          console.log("No categories found");
-          res.json([]);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        res.json([]);
-      });
-  } else if (req.method == "POST") {
-    const data: any = req.body;
-    if (!isValidText(data.title)) {
+  if (req.method == "POST") {
+    console.log("API new category")
+    const categoryData: CreateCategory = req.body;
+    console.log(categoryData)
+
+    if (!isValidText(categoryData.title)) {
       res.json({ target: "title", error: "Not a valid title" });
       return;
     }
 
-    data.name = formatTextToUrlName(data.title);
-    data.svg.viewbox = data.svg.viewbox.length > 1 ? data.svg.viewbox : null;
-    console.log(data);
+    categoryData.svg.viewbox = categoryData.svg.viewbox.length > 1 ? categoryData.svg.viewbox : "";
+
+    const newSvg: Prisma.SvgUncheckedCreateInput = {
+      viewbox: categoryData.svg.viewbox,
+      path: categoryData.svg.path
+    }
 
     await prisma.svg
-      .create({ data: data.svg })
+      .create({ data: newSvg })
       .then(
-        async (svgData) => {
+        async (createdSvg: Svg) => {
+          const newCategory: Prisma.CategoryUncheckedCreateInput = {
+            title: categoryData.title,
+            name: formatTextToUrlName(categoryData.title),
+            color: categoryData.color ?? "teal",
+            svgId: createdSvg.id,
+          }
+
           await prisma.category
             .create({
-              data: { title: data.title, name: data.name, color: data.name, svgId: svgData.id },
-              include: { svg: true },
+              data: newCategory,
+              include: { svg: true, articles: true },
             })
             .then(
-              (data) => {
-                res.json({ success: true, data: data });
+              (createdCategory: CategoryWithIncludes | null) => {
+                if (createdCategory) {
+                  res.json({ success: true, data: createdCategory });
+                } else {
+                  res.json({ error: true, message: "Could not create category" });
+                }
               },
               (errorReason) => {
+                console.log(errorReason)
                 if (errorReason.code === "P2002") {
                   res.json({ target: errorReason.meta.target[0], error: "Already exists" });
                 }

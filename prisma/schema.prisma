@@ -12,8 +12,7 @@ model Article {
   name         String   @unique
   title        String   @unique
   introduction String   @default("")
-  imageId      String?
-  image        Image?   @relation(fields: [imageId], references: [id])
+  imageUrl     String
   markdown     String
   contentTable Json?
   categoryId   String
@@ -29,20 +28,9 @@ model Category {
   color       String
   svgId       String
   svg         Svg       @relation(fields: [svgId], references: [id])
-  Article     Article[]
+  articles    Article[]
   dateCreated DateTime  @default(now())
   dateUpdated DateTime  @default(now())
-}
-
-model Image {
-  id          String    @id @default(uuid())
-  name        String    @unique
-  alt         String    @default("")
-  url         String    @default("")
-  width       Int
-  height      Int
-  dateCreated DateTime  @default(now())
-  Article     Article[]
 }
 
 model Svg {

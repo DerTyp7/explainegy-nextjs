@@ -5,9 +5,9 @@ export interface CreateArticle {
   title: string;
   markdown: string;
   introduction: string;
-  categoryId: number;
+  categoryId: string;
   contentTable: Prisma.JsonArray
-  imageId?: number;
+  imageUrl?: string;
 }
 
 export interface UpdateArticle {
@@ -15,9 +15,9 @@ export interface UpdateArticle {
   title?: string;
   markdown?: string;
   introduction?: string;
-  categoryId?: number;
+  categoryId?: string;
   contentTable?: Prisma.JsonArray
-  imageId?: number;
+  imageUrl?: string;
 }
 
 export interface CreateCategory {
