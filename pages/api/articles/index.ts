@@ -10,11 +10,15 @@ import { UpdateArticle } from "../../../types/api";
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  console.log("articles index.ts")
   if (req.method == "GET") { //* GET
+    console.log("get")
     const categoryName: string = req.query.categoryName?.toString() ?? "";
     const limit: number = req.query.limit ? Number(req.query.limit) : undefined;
     const orderBy: string = req.query.orderBy?.toString() ?? "";
     const category = await prisma.category.findUnique({ where: { name: categoryName } });
+
+    console.log(categoryName, limit, orderBy, category)
 
     let orderByObj: Prisma.Enumerable<Prisma.ArticleOrderByWithRelationInput>;
 
@@ -28,12 +32,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     await prisma.article
       .findMany({
-        where: { category: categoryName.length > 0 ? category : undefined },
+        where: { category: category ?? undefined },
         include: { category: true },
         take: limit,
         orderBy: orderByObj
       })
       .then((result: Article[]) => { //! ContentTableEntries not sorted
+        console.log("result", result)
         if (result !== null) {
           res.end(JSON.stringify(result));
         } else {
@@ -43,8 +48,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           };
           res.status(404).json(error);
         }
+      }, (err) => {
+        console.log("reason", err)
       })
       .catch((err) => {
+        console.log("catch", err)
         const error: ResponseError = {
           code: "500",
           message: err,
@@ -82,7 +90,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           res.json({ success: true, data: data });
         },
         (errorReason) => {
-          console.log(errorReason)
+          console.log("reason", errorReason)
           if (errorReason.code === "P2002") {
             res.json({ target: errorReason.meta.target[0], error: "Already exists" });
           }

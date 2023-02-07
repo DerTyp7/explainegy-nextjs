@@ -7,7 +7,11 @@ import { ArticleWithIncludes, FetchManager } from "../../../../manager/fetchMana
 import { formatTextToUrlName } from "../../../../utils";
 
 //* MAIN
-export default async function ArticlePage({ params }: { params: { articleName: string; categoryName: string } }) {
+export default async function ArticlePage({
+  params,
+}: {
+  params: { articleName: string; categoryName: string; test: string };
+}) {
   const articleName: string = formatTextToUrlName(params.articleName);
   const article: ArticleWithIncludes = await FetchManager.Article.getByName(articleName);
 
@@ -16,6 +20,7 @@ export default async function ArticlePage({ params }: { params: { articleName: s
   const dateOptions: Intl.DateTimeFormatOptions = { month: "long", day: "numeric", year: "numeric" };
   const markdown: string = article?.markdown ?? "";
 
+  console.log(params.test);
   return (
     <div className={styles.article}>
       <ContentTable contentTableData={article.contentTable ? article.contentTable : []} />
@@ -60,4 +65,9 @@ export async function generateStaticParams() {
       articleName: article.name ?? "",
     }))
   );
+}
+
+export function getServerSideProps() {
+  console.log("-----------------------------------");
+  return { test: "weird test" };
 }

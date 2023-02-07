@@ -12,22 +12,28 @@ type ArticleWithIncludes = Prisma.ArticleGetPayload<{ include: { contentTableEnt
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const articleId: string = formatTextToUrlName(req.query.articleId.toString())
 
+  console.log(`API articleId: ${articleId}`)
   if (req.method == "GET") { //* GET
+    console.log("get")
     await prisma.article
       .findUnique({ where: { id: articleId }, include: { category: true, image: true } })
       .then((result: ArticleWithIncludes) => {
         if (result !== null) {
+          console.log("result", result)
           res.json(result);
         } else {
+          console.log("no article found")
           const error: ResponseError = {
             code: "404",
             message: "No article with this name found!",
           };
           res.status(404).json(error);
         }
+      }, (err) => {
+        console.log("reason", err)
       })
       .catch((err) => {
-
+        console.log("catch", err)
         const error: ResponseError = {
           code: "500",
           message: err,
