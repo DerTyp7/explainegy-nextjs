@@ -8,16 +8,17 @@ import Footer from "@/components/Footer";
 import Nav from "@/components/Nav";
 import { Category } from "@prisma/client";
 import prisma from "@/lib/prisma";
+import { SessionProvider } from "next-auth/react";
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
-    <>
+    <SessionProvider session={session}>
       <header>
         <Nav />
         <AdminNav />
       </header>
       <Component {...pageProps} />
       <Footer />
-    </>
+    </SessionProvider>
   );
 }

@@ -27,7 +27,7 @@ model Category {
   title       String    @unique
   color       String
   svgId       String
-  svg         Svg       @relation(fields: [svgId], references: [id])
+  svg         Svg       @relation(fields: [svgId], references: [id], onDelete: Cascade)
   articles    Article[]
   dateCreated DateTime  @default(now())
   dateUpdated DateTime  @default(now())

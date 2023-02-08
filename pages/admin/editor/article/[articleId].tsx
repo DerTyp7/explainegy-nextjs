@@ -13,9 +13,13 @@ import { apiUrl } from "@/global";
 import Markdown from "@/components/Markdown";
 import prisma, { ArticleWithIncludes, CategoryWithIncludes } from "@/lib/prisma";
 import { CLIENT_RENEG_LIMIT } from "tls";
+import { useSession } from "next-auth/react";
 
 export default function AdminArticlesEditorPage({ article, categories }: { article: ArticleWithIncludes | null; categories: CategoryWithIncludes[] }) {
   const router = useRouter();
+  const { status } = useSession({
+    required: true,
+  });
 
   const [title, setTitle] = useState<string>(article?.title ?? "");
   const [selectCategoriesOptions, setSelectCategoriesOptions] = useState<{ value: string; label: string }[]>(
@@ -116,132 +120,136 @@ export default function AdminArticlesEditorPage({ article, categories }: { artic
       .catch(console.error);
   }
 
-  return (
-    <div className={styles.adminArticlesCreate}>
-      <h1>{article ? "Update article" : "Create new article"}</h1>
-      <div className={styles.formControl}>
-        <p className="text-error" ref={errorTextRef}></p>
-        <button
-          type="button"
-          onClick={() => {
-            if (article) {
-              updateArticle();
-            } else {
-              createArticle();
-            }
-          }}
-        >
-          {article ? "Update article" : "Create article"}
-        </button>
-      </div>
+  if (status === "authenticated") {
+    return (
+      <div className={styles.adminArticlesCreate}>
+        <h1>{article ? "Update article" : "Create new article"}</h1>
+        <div className={styles.formControl}>
+          <p className="text-error" ref={errorTextRef}></p>
+          <button
+            type="button"
+            onClick={() => {
+              if (article) {
+                updateArticle();
+              } else {
+                createArticle();
+              }
+            }}
+          >
+            {article ? "Update article" : "Create article"}
+          </button>
+        </div>
 
-      <div className={styles.form}>
-        <div className={styles.articleEditor}>
-          <div className={styles.title}>
-            <label htmlFor="title">Title</label>
+        <div className={styles.form}>
+          <div className={styles.articleEditor}>
+            <div className={styles.title}>
+              <label htmlFor="title">Title</label>
 
-            <div className={styles.titleInputs}>
+              <div className={styles.titleInputs}>
+                <input
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setTitle(e.target.value);
+                  }}
+                  className={!isValidText(title) && title ? "error" : ""}
+                  type="text"
+                  name="title"
+                  placeholder="title"
+                  ref={titleRef}
+                  defaultValue={title}
+                />
+                <input readOnly={true} className={""} type="text" name="name" value={title ? formatTextToUrlName(title) : ""} />
+              </div>
+            </div>
+            <div className={styles.category}>
+              <label htmlFor="title">Category</label>
+              <Select
+                ref={categorySelectRef}
+                className="react-select-container"
+                classNamePrefix="react-select"
+                options={selectCategoriesOptions}
+                defaultValue={article ? { value: article.category.id, label: article.category.title } : {}}
+              />
+            </div>
+            <div className={styles.introduction}>
+              <label htmlFor="title">Introduction</label>
               <input
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  setTitle(e.target.value);
+                  setIntroduction(e.target.value);
                 }}
-                className={!isValidText(title) && title ? "error" : ""}
+                className={!isValidText(introduction) && introduction ? "error" : ""}
                 type="text"
-                name="title"
-                placeholder="title"
-                ref={titleRef}
-                defaultValue={title}
+                name="introduction"
+                placeholder="Introduction"
+                ref={introductionRef}
+                defaultValue={introduction}
               />
-              <input readOnly={true} className={""} type="text" name="name" value={title ? formatTextToUrlName(title) : ""} />
             </div>
-          </div>
-          <div className={styles.category}>
-            <label htmlFor="title">Category</label>
-            <Select
-              ref={categorySelectRef}
-              className="react-select-container"
-              classNamePrefix="react-select"
-              options={selectCategoriesOptions}
-              defaultValue={article ? { value: article.category.id, label: article.category.title } : {}}
-            />
-          </div>
-          <div className={styles.introduction}>
-            <label htmlFor="title">Introduction</label>
-            <input
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                setIntroduction(e.target.value);
-              }}
-              className={!isValidText(introduction) && introduction ? "error" : ""}
-              type="text"
-              name="introduction"
-              placeholder="Introduction"
-              ref={introductionRef}
-              defaultValue={introduction}
-            />
-          </div>
-          <div className={styles.markdown}>
-            <label htmlFor="">Markdown Editor</label>
-            <div className={styles.markdownEditor}>
-              <textarea
-                ref={markdownTextAreaRef}
-                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
-                  setMarkdown(e.target.value);
-                }}
-                defaultValue={markdown}
-              ></textarea>
-              <Markdown value={markdown} />
-            </div>
-          </div>
-
-          <div className={styles.contentTable}>
-            <label htmlFor="">Table of contents</label>
-            <div className={styles.contentTableEditor}>
-              <div className={styles.entries}>
-                {contentTable?.map((entry: IContentTableEntry, i: number) => {
-                  return (
-                    <div key={i}>
-                      <input
-                        onChange={(e) => {
-                          changeContentTableEntryAnchor(i, e.target.value);
-                        }}
-                        type="text"
-                        placeholder={"Anchor"}
-                        defaultValue={entry.anchor}
-                      />
-                      <input
-                        onChange={(e) => {
-                          changeContentTableEntryTitle(i, e.target.value);
-                        }}
-                        type="text"
-                        placeholder={"Title"}
-                        defaultValue={entry.title}
-                      />{" "}
-                      <button
-                        onClick={() => {
-                          removeEntry(i);
-                        }}
-                      >
-                        Remove
-                      </button>
-                    </div>
-                  );
-                })}
-
-                <button
-                  onClick={() => {
-                    setContentTable([...contentTable, { title: "", anchor: "" }]);
+            <div className={styles.markdown}>
+              <label htmlFor="">Markdown Editor</label>
+              <div className={styles.markdownEditor}>
+                <textarea
+                  ref={markdownTextAreaRef}
+                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+                    setMarkdown(e.target.value);
                   }}
-                >
-                  Add
-                </button>
+                  defaultValue={markdown}
+                ></textarea>
+                <Markdown value={markdown} />
               </div>
-              <Markdown value={markdown} />
+            </div>
+
+            <div className={styles.contentTable}>
+              <label htmlFor="">Table of contents</label>
+              <div className={styles.contentTableEditor}>
+                <div className={styles.entries}>
+                  {contentTable?.map((entry: IContentTableEntry, i: number) => {
+                    return (
+                      <div key={i}>
+                        <input
+                          onChange={(e) => {
+                            changeContentTableEntryAnchor(i, e.target.value);
+                          }}
+                          type="text"
+                          placeholder={"Anchor"}
+                          defaultValue={entry.anchor}
+                        />
+                        <input
+                          onChange={(e) => {
+                            changeContentTableEntryTitle(i, e.target.value);
+                          }}
+                          type="text"
+                          placeholder={"Title"}
+                          defaultValue={entry.title}
+                        />{" "}
+                        <button
+                          onClick={() => {
+                            removeEntry(i);
+                          }}
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    );
+                  })}
+
+                  <button
+                    onClick={() => {
+                      setContentTable([...contentTable, { title: "", anchor: "" }]);
+                    }}
+                  >
+                    Add
+                  </button>
+                </div>
+                <Markdown value={markdown} />
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return <></>;
+  }
 }
 
 export async function getServerSideProps(context: any) {

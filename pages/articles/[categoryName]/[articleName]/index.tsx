@@ -8,13 +8,14 @@ import prisma, { ArticleWithIncludes, CategoryWithIncludes } from "@/lib/prisma"
 import ArticleControl from "../../../../components/ArticleControl";
 import { IContentTableEntry } from "@/types/contentTable";
 import { Prisma } from "@prisma/client";
+import { useSession, signIn, signOut } from "next-auth/react";
+import { CLIENT_RENEG_LIMIT } from "tls";
 
 //* MAIN
 export default function ArticlePage({ article }: { article: ArticleWithIncludes }) {
   const dateUpdated: Date = new Date(article?.dateUpdated);
   const dateCreated: Date = new Date(article?.dateCreated);
   const dateOptions: Intl.DateTimeFormatOptions = { month: "long", day: "numeric", year: "numeric" };
-
   return (
     <>
       <ArticleControl articleId={article.id} />

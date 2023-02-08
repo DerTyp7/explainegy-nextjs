@@ -9,8 +9,13 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { apiUrl } from "@/global";
 import prisma, { CategoryWithIncludes } from "@/lib/prisma";
+import { useSession } from "next-auth/react";
 
 export default function AdminCategoriesEditor({ category }: { category: CategoryWithIncludes | null }) {
+  const { status } = useSession({
+    required: true,
+  });
+
   const router = useRouter();
   const [title, setTitle] = useState<string>(category?.title ?? "");
   const [color, setColor] = useState<string>(category?.color ?? "");
@@ -85,80 +90,84 @@ export default function AdminCategoriesEditor({ category }: { category: Category
       .catch(console.error);
   }
 
-  return (
-    <div className={styles.categoryEditor}>
-      <h1>{category ? "Update category" : "Create new category"}</h1>
-      <div className={styles.formControl}>
-        <p className="text-error" ref={errorTextRef}></p>
-        <button
-          type="button"
-          onClick={() => {
-            if (category) {
-              updateCategory();
-            } else {
-              createCategory();
-            }
-          }}
-        >
-          {category ? "Update category" : "Create category"}
-        </button>
-      </div>
-      <div className={styles.form}>
-        <div className={styles.title}>
-          <label htmlFor="title">Title</label>
-          <div className={styles.titleInputs}>
-            <input
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                setTitle(e.target.value);
-              }}
-              className={!isValidText(title) && title ? "error" : ""}
-              type="text"
-              name="title"
-              placeholder="title"
-              ref={titleRef}
-              defaultValue={title}
-            />
-            <input readOnly={true} className={""} type="text" name="name" value={title ? formatTextToUrlName(title) : ""} />
-          </div>
-          <div className={styles.svg}>
-            <label>SVG</label>
-            <div className={styles.svgInputs}>
+  if (status === "authenticated") {
+    return (
+      <div className={styles.categoryEditor}>
+        <h1>{category ? "Update category" : "Create new category"}</h1>
+        <div className={styles.formControl}>
+          <p className="text-error" ref={errorTextRef}></p>
+          <button
+            type="button"
+            onClick={() => {
+              if (category) {
+                updateCategory();
+              } else {
+                createCategory();
+              }
+            }}
+          >
+            {category ? "Update category" : "Create category"}
+          </button>
+        </div>
+        <div className={styles.form}>
+          <div className={styles.title}>
+            <label htmlFor="title">Title</label>
+            <div className={styles.titleInputs}>
               <input
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  setSvgPath(e.target.value);
+                  setTitle(e.target.value);
                 }}
+                className={!isValidText(title) && title ? "error" : ""}
                 type="text"
-                placeholder="svg path"
-                ref={svgPathRef}
-                defaultValue={svgPath}
+                name="title"
+                placeholder="title"
+                ref={titleRef}
+                defaultValue={title}
               />
+              <input readOnly={true} className={""} type="text" name="name" value={title ? formatTextToUrlName(title) : ""} />
+            </div>
+            <div className={styles.svg}>
+              <label>SVG</label>
+              <div className={styles.svgInputs}>
+                <input
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setSvgPath(e.target.value);
+                  }}
+                  type="text"
+                  placeholder="svg path"
+                  ref={svgPathRef}
+                  defaultValue={svgPath}
+                />
+                <input
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setSvgViewbox(e.target.value);
+                  }}
+                  type="text"
+                  placeholder="0 0 512 512"
+                  ref={svgViewboxRef}
+                  defaultValue={svgViewbox}
+                />
+              </div>
+            </div>
+
+            <div className={styles.color}>
+              <label>Color</label>
               <input
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  setSvgViewbox(e.target.value);
+                  setColor(e.target.value);
                 }}
-                type="text"
-                placeholder="0 0 512 512"
-                ref={svgViewboxRef}
-                defaultValue={svgViewbox}
+                type="color"
+                ref={colorRef}
+                defaultValue={color}
               />
             </div>
           </div>
-
-          <div className={styles.color}>
-            <label>Color</label>
-            <input
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                setColor(e.target.value);
-              }}
-              type="color"
-              ref={colorRef}
-              defaultValue={color}
-            />
-          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return <></>;
+  }
 }
 
 export async function getServerSideProps(context: any) {
