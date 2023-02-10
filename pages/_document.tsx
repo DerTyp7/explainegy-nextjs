@@ -4,7 +4,7 @@ export default function Document() {
   return (
     <Html lang="en" style={{ scrollBehavior: "smooth" }}>
       <Head />
-      <body>
+      <body className="theme-dark">
         <Main />
         <NextScript />
       </body>

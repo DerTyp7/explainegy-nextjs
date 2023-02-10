@@ -7,8 +7,9 @@
   /* Colors: General */
   --color-background-body: #181a1b;
   --color-background-secondary: #2c3032;
-  --color-font: #ffffff;
+  --color-font: #ebebeb;
   --color-font-muted: #929292;
+  --color-font-headline: #fff;
   --color-shadow-nav: #00000033;
 
   --color-danger: #cf000f;
@@ -43,6 +44,7 @@
   .theme-light {
     --color-background-body: #ffffff;
     --color-font: #000000;
+    --color-font-headline: #000;
     --color-shadow-nav: #000c2b0d;
 
     --color-overlay-mix: var(--color-font);

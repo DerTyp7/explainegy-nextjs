@@ -6,9 +6,9 @@ import { Prisma } from '@prisma/client';
 type SearchArticle = Prisma.ArticleGetPayload<{ select: { title: true, name: true } }>
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  let query: string = req.query.q?.toString() ?? "";
+  let query: string = req.query?.q?.toString() ?? "";
   query = formatTextToUrlName(query)
-  if (query.length > 0) {
+  if (query?.length > 0) {
     await prisma.article.findMany({
       select: { title: true, name: true },
       take: 5,

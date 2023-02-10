@@ -12,9 +12,10 @@ function switchTheme(theme: string) {
   const bodyElement = document.getElementsByTagName("body")[0];
 
   if (theme == "dark") {
-    bodyElement.classList.remove("theme-light");
-  } else {
     bodyElement.classList.add("theme-light");
+  } else {
+    bodyElement.classList.remove("theme-light");
+    localStorage.setItem("theme", "light");
   }
 }
 
@@ -48,7 +49,7 @@ export default function Nav() {
   const [categories, setCategories] = useState<Category[]>([]);
 
   async function handleSearchInput(event: React.ChangeEvent<HTMLInputElement>) {
-    const query = event.target.value;
+    const query = event.target.value ?? "";
     let result = await fetch(`/api/search?q=${query}`);
     let json = await result.json();
 
@@ -66,10 +67,6 @@ export default function Nav() {
       switchTheme("light");
     }
   }, []);
-
-  useEffect(() => {
-    console.log(searchResults);
-  }, [searchResults]);
 
   useEffect(() => {
     async function getCategories() {
