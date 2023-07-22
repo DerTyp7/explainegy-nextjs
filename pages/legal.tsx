@@ -9,13 +9,13 @@ export default function legal() {
         <p>
           <b>Janis Meister</b>
           <br /> Explainegy
-          <br /> Borsigstrasse 8<br /> 27574 Bremerhaven
+          <br /> Rosestreet 8<br /> 22571 Town
           <br /> Germany
           <br />
         </p>
         <h3>Contact</h3>
         <p>
-          E-mail: <Link href="mailto:contact@explainegy.com">contact@explainegy.com</Link>
+          E-mail: <Link href="mailto:contact@explainegy.com">no-a-real-email@explainegy.com</Link>
           <br />
         </p>
         <h3>EU Dispute Resolution</h3>
