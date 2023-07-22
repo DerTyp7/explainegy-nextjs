@@ -4,14 +4,14 @@ export const authOptions: AuthOptions = {
   // Configure one or more authentication providers
   providers: [
     GithubProvider({
-      clientId: "1afc604704e6ac0149e3", //! env vars
-      clientSecret: "b8f76990fc0a9181eaba23359a27b2d140ab67e7",  //! env vars
+      clientId: process.env.AUTH_GH_CLIENT_ID ?? "",
+      clientSecret: process.env.AUTH_GH_CLIENT_SECRET ?? ""
     }),
     // ...add more providers here
   ], callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
 
-      if (user.id.toString() == "76851529") { //! env vars
+      if (user.id.toString() == process.env.AUTH_DEBUG_GH_ADMIN_ID) { //! env vars
         return true
       } else {
         // Return false to display a default error message
